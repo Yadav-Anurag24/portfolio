@@ -1,47 +1,74 @@
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
-import { ExternalLink, Github, Smartphone, Car, BookOpen } from 'lucide-react';
+import { ExternalLink, Github, Smartphone, Car, BookOpen, Code2 } from 'lucide-react';
 import { useTerminal } from '@/contexts/TerminalContext';
 
-const projects = [
-  {
-    id: 1,
-    name: 'Smart Parking Finder',
-    description: 'A mobile application that helps users find available parking spots in real-time using IoT sensors and GPS tracking.',
-    techStack: ['Ionic', 'Angular', 'Node.js', 'MongoDB', 'Socket.io'],
-    status: 'completed',
-    features: ['Real-time availability', 'GPS navigation', 'Payment integration', 'IoT sensor data'],
-    icon: Car,
-    gradient: 'from-emerald-500 to-teal-600',
-  },
-  {
-    id: 2,
-    name: 'HPCL Dealer App',
-    description: 'Enterprise mobile application for HPCL petroleum dealers to manage inventory, orders, and customer relationships.',
-    techStack: ['React Native', 'Redux', 'Node.js', 'PostgreSQL'],
-    status: 'completed',
-    features: ['Inventory management', 'Order tracking', 'Analytics dashboard', 'Offline support'],
-    icon: Smartphone,
-    gradient: 'from-orange-500 to-red-600',
-  },
-  {
-    id: 3,
-    name: 'Bookstore Auth System',
-    description: 'Secure authentication and authorization system for an online bookstore with JWT tokens and role-based access.',
-    techStack: ['Node.js', 'Express', 'JWT', 'bcrypt', 'MongoDB'],
-    status: 'completed',
-    features: ['JWT authentication', 'Role-based access', 'Password encryption', 'Session management'],
-    icon: BookOpen,
-    gradient: 'from-violet-500 to-purple-600',
-  },
-];
+// Helper to map Server IDs to Icons/Colors (Since server sends JSON, not UI components)
+const getProjectAssets = (id) => {
+  const assets = {
+    1: { icon: Car, gradient: 'from-emerald-500 to-teal-600' },
+    2: { icon: Smartphone, gradient: 'from-orange-500 to-red-600' },
+    3: { icon: BookOpen, gradient: 'from-violet-500 to-purple-600' }
+  };
+  return assets[id] || { icon: Code2, gradient: 'from-blue-500 to-cyan-600' };
+};
 
 const ProjectsContent = () => {
   const { addLog } = useTerminal();
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const handleProjectClick = (project: typeof projects[0]) => {
+  // FETCH DATA FROM YOUR SERVER
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const response = await fetch('/api/projects'); // Hits your Node.js Server
+        if (!response.ok) throw new Error('Server offline');
+        const data = await response.json();
+        
+        // Transform data if needed to match your UI structure
+        // (Assuming server returns standard JSON, we map it to include icon/gradient)
+        const enhancedData = data.map(p => ({
+            ...p,
+            ...getProjectAssets(p.id)
+        }));
+
+        setProjects(enhancedData);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load projects from server.");
+        // Optional: Fallback to empty array or show error
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
+
+  const handleProjectClick = (project) => {
     addLog('info', `> Opening project: ${project.name}`);
   };
+
+  if (loading) {
+    return (
+        <div className="leading-7 p-4">
+             <span className="syntax-comment">{`// Connecting to localhost:5000...`}</span><br/>
+             <span className="syntax-comment">{`// Fetching data...`}</span>
+        </div>
+    );
+  }
+
+  if (error) {
+     return (
+        <div className="leading-7 p-4">
+             <span className="text-red-400">{`// Error: ${error}`}</span><br/>
+             <span className="text-gray-500">{`// Check if 'npm run server' is running`}</span>
+        </div>
+     );
+  }
 
   return (
     <motion.div
@@ -82,7 +109,7 @@ const ProjectsContent = () => {
         <span className="text-foreground">[] = [</span>
       </div>
 
-      {/* Projects array */}
+      {/* DYNAMIC Projects array */}
       {projects.map((project, index) => (
         <HoverCard key={project.id} openDelay={200} closeDelay={100}>
           <HoverCardTrigger asChild>
@@ -105,13 +132,15 @@ const ProjectsContent = () => {
               <div className="leading-7 ml-4">
                 <span className="syntax-property">description</span>
                 <span className="text-foreground">: </span>
-                <span className="syntax-string text-sm">"{project.description.substring(0, 60)}..."</span>
+                <span className="syntax-string text-sm">
+                    "{project.description ? project.description.substring(0, 60) : ''}..."
+                </span>
                 <span className="text-muted-foreground">,</span>
               </div>
               <div className="leading-7 ml-4">
                 <span className="syntax-property">techStack</span>
                 <span className="text-foreground">: [</span>
-                {project.techStack.map((tech, i) => (
+                {project.techStack && project.techStack.map((tech, i) => (
                   <span key={tech}>
                     <span className="syntax-string">"{tech}"</span>
                     {i < project.techStack.length - 1 && <span className="text-foreground">, </span>}
@@ -148,7 +177,7 @@ const ProjectsContent = () => {
               </div>
 
               <div className="flex flex-wrap gap-1.5">
-                {project.techStack.map((tech) => (
+                {project.techStack && project.techStack.map((tech) => (
                   <span
                     key={tech}
                     className="px-2 py-0.5 text-xs rounded bg-muted text-muted-foreground"
@@ -158,17 +187,20 @@ const ProjectsContent = () => {
                 ))}
               </div>
 
-              <div className="pt-2 border-t border-border">
-                <div className="text-xs text-muted-foreground mb-2">Key Features:</div>
-                <ul className="text-xs space-y-1">
-                  {project.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2 text-foreground">
-                      <span className="w-1 h-1 rounded-full bg-primary" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+             {/* Features Section - Only show if server sends features */}
+             {project.features && (
+                <div className="pt-2 border-t border-border">
+                    <div className="text-xs text-muted-foreground mb-2">Key Features:</div>
+                    <ul className="text-xs space-y-1">
+                    {project.features.map((feature) => (
+                        <li key={feature} className="flex items-center gap-2 text-foreground">
+                        <span className="w-1 h-1 rounded-full bg-primary" />
+                        {feature}
+                        </li>
+                    ))}
+                    </ul>
+                </div>
+             )}
 
               <div className="flex gap-2 pt-2">
                 <button className="flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs rounded bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">

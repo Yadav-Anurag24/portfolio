@@ -16,16 +16,40 @@ const ContactContent = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    addLog('info', '> Sending request to API...');
+    
+    // 1. Log to the visual terminal
+    addLog('info', `> Sending message package from ${formData.email}...`);
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      // 2. The Real API Call
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
 
-    addLog('success', '> POST /api/contact - 200 OK');
-    addLog('output', `> Message sent from: ${formData.email}`);
+      const data = await response.json();
 
-    setFormData({ name: '', email: '', subject: '', message: '' });
-    setIsSubmitting(false);
+      if (response.ok) {
+        // 3. Success Handling
+        addLog('success', `> POST /api/contact - 200 OK`);
+        addLog('output', `> Server Response: "${data.message}"`);
+        
+        // Clear the form
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      } else {
+        // 4. Server Error Handling (e.g. missing fields)
+        addLog('error', `> Server Error (400): ${data.message}`);
+      }
+    } catch (error) {
+      // 5. Network Error Handling
+      addLog('error', `> Network Error: Failed to reach localhost:5000`);
+      console.error(error);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -60,15 +84,6 @@ const ContactContent = () => {
         <span className="text-foreground">{' }'} </span>
         <span className="syntax-keyword">from</span>
         <span className="syntax-string"> 'react'</span>
-        <span className="text-foreground">;</span>
-      </div>
-      <div className="leading-7">
-        <span className="syntax-keyword">import</span>
-        <span className="text-foreground"> {'{ '}</span>
-        <span className="syntax-variable">ContactSchema</span>
-        <span className="text-foreground">{' }'} </span>
-        <span className="syntax-keyword">from</span>
-        <span className="syntax-string"> '@/schemas'</span>
         <span className="text-foreground">;</span>
       </div>
 
@@ -214,17 +229,17 @@ const ContactContent = () => {
         <div className="text-sm">
           <span className="syntax-property">EMAIL</span>
           <span className="text-foreground">=</span>
-          <span className="syntax-string">"hello@developer.com"</span>
+          <span className="syntax-string">"your@email.com"</span>
         </div>
         <div className="text-sm">
           <span className="syntax-property">GITHUB</span>
           <span className="text-foreground">=</span>
-          <span className="syntax-string">"https://github.com/developer"</span>
+          <span className="syntax-string">"https://github.com/yourusername"</span>
         </div>
         <div className="text-sm">
           <span className="syntax-property">LINKEDIN</span>
           <span className="text-foreground">=</span>
-          <span className="syntax-string">"https://linkedin.com/in/developer"</span>
+          <span className="syntax-string">"https://linkedin.com/in/yourprofile"</span>
         </div>
         <div className="text-sm">
           <span className="syntax-property">LOCATION</span>

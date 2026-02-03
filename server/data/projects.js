@@ -17,7 +17,7 @@ const projects = [
         githubLink: "https://github.com/yourusername/hpcl-app",
         liveLink: null,
         status: "In Development",
-        featured: true
+        features: ["Real-time slots", "Google Maps", "Payment Gateway"]
     },
     {
         id: 3,

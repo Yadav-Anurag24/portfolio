@@ -6,6 +6,7 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const projectRoutes = require('./routes/projectRoutes');
+const contactRoutes = require('./routes/contactRoutes');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -16,6 +17,7 @@ app.use(express.json()); // Parse incoming JSON
 
 // Routes
 app.use('/api/projects', projectRoutes);
+app.use('/api/contact', contactRoutes);
 
 // Health Check Endpoint
 app.get('/', (req, res) => {
