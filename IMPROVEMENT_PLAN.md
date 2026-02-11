@@ -8,21 +8,30 @@
 
 ## PART A — Critical Fixes (Do These First)
 
-### 1. SEO & Metadata is Completely Broken
+### 1. ~~SEO & Metadata~~ ✅ DONE
 
-`index.html` still has **"Lovable App"** as the title, Lovable's OG image, and their Twitter handle. No recruiter or visitor will share your site properly.
+All SEO and metadata fixes have been implemented:
 
-- [ ] Replace title with `"Anurag Kumar | Full-Stack Developer"`
-- [ ] Add a real `og:image` (screenshot your portfolio in VS Code mode)
-- [ ] Add a custom favicon (use a VS Code-inspired icon or your initials)
-- [ ] Add `sitemap.xml` and structured JSON-LD data for Person schema
-- [ ] Add canonical URL meta tag
+- [x] Title set to `"Anurag Kumar | Backend Developer Portfolio"`
+- [x] Added real OG image reference (`og-image.png` / `og-image.svg`)
+- [x] Added custom SVG favicon (`<AK/>` code theme — replace with Flaticon PNG if preferred)
+- [x] Added `sitemap.xml` and structured JSON-LD Person schema
+- [x] Added canonical URL meta tag
+- [x] Removed all Lovable branding
+- [x] Added `theme-color` meta tag matching VS Code dark theme
+- [x] Moved Google Fonts from render-blocking CSS `@import` to `<link rel="preload">` in HTML
+- [x] Updated `robots.txt` with sitemap reference
+- [x] Added Twitter card and Open Graph meta tags with proper content
 
-### 2. Placeholder Content Everywhere
+### 2. ~~Placeholder Content~~ ✅ DONE
 
-- [ ] `ContactContent.tsx` has `"your@email.com"`, `"yourusername"` — replace with real info
-- [ ] `StatusBar.tsx` social links point to `https://github.com` and `https://linkedin.com` (not your profiles)
-- [ ] Terminal `github`/`linkedin` commands open the same generic URLs
+All placeholder content has been replaced with real details:
+
+- [x] `ContactContent.tsx` — email, GitHub, LinkedIn now show real URLs and are clickable links
+- [x] `StatusBar.tsx` — social icons now link to `github.com/Yadav-Anurag24` and `linkedin.com/in/anurag24kumar`
+- [x] `TerminalContext.tsx` — `contact` command shows real email/GitHub/LinkedIn
+- [x] `TerminalContext.tsx` — `github` and `linkedin` commands open real profile URLs
+- [x] `TerminalContext.tsx` — `whoami` returns `anurag@portfolio:~$`
 
 ### 3. Bundle Bloat — ~30 Unused Packages
 

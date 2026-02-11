@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="12" fill="#1e1e2e"/>
+  <text x="8" y="28" font-family="monospace" font-size="18" font-weight="bold" fill="#c792ea">&lt;</text>
+  <text x="16" y="28" font-family="monospace" font-size="18" font-weight="bold" fill="#82aaff">AK</text>
+  <text x="40" y="28" font-family="monospace" font-size="18" font-weight="bold" fill="#c792ea">/&gt;</text>
+  <text x="12" y="48" font-family="monospace" font-size="10" fill="#637777">~/dev</text>
+  <rect x="8" y="52" width="36" height="2" rx="1" fill="#c3e88d"/>
+  <rect x="8" y="52" width="20" height="2" rx="1" fill="#82aaff"/>
+</svg>

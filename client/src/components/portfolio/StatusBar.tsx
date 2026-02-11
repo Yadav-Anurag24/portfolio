@@ -51,18 +51,20 @@ const StatusBar = ({ onTerminalToggle, isTerminalOpen }: StatusBarProps) => {
         {/* Social Icons */}
         <div className="flex items-center gap-2 border-l border-white/20 pl-3 ml-1">
           <a
-            href="https://github.com"
+            href="https://github.com/Yadav-Anurag24"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:bg-white/10 p-1 rounded transition-colors"
+            title="GitHub - Yadav-Anurag24"
           >
             <Github className="w-3.5 h-3.5" />
           </a>
           <a
-            href="https://linkedin.com"
+            href="https://www.linkedin.com/in/anurag24kumar"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:bg-white/10 p-1 rounded transition-colors"
+            title="LinkedIn - Anurag Kumar"
           >
             <Linkedin className="w-3.5 h-3.5" />
           </a>

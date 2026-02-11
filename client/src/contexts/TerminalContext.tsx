@@ -69,23 +69,23 @@ Available commands:
         addLog('output', '3. Bookstore Auth System - Node.js, Express');
         break;
       case 'contact':
-        addLog('output', '📧 Email: hello@developer.com');
-        addLog('output', '🔗 GitHub: github.com/developer');
-        addLog('output', '💼 LinkedIn: linkedin.com/in/developer');
+        addLog('output', '📧 Email: anuragkumarmsd456@gmail.com');
+        addLog('output', '🔗 GitHub: github.com/Yadav-Anurag24');
+        addLog('output', '💼 LinkedIn: linkedin.com/in/anurag24kumar');
         break;
       case 'clear':
         clearLogs();
         break;
       case 'github':
         addLog('success', 'Opening GitHub profile...');
-        window.open('https://github.com', '_blank');
+        window.open('https://github.com/Yadav-Anurag24', '_blank');
         break;
       case 'linkedin':
         addLog('success', 'Opening LinkedIn profile...');
-        window.open('https://linkedin.com', '_blank');
+        window.open('https://www.linkedin.com/in/anurag24kumar', '_blank');
         break;
       case 'whoami':
-        addLog('output', 'developer@portfolio:~$');
+        addLog('output', 'anurag@portfolio:~$');
         break;
       case 'date':
         addLog('output', new Date().toLocaleString());

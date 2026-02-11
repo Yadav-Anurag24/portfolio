@@ -229,22 +229,22 @@ const ContactContent = () => {
         <div className="text-sm">
           <span className="syntax-property">EMAIL</span>
           <span className="text-foreground">=</span>
-          <span className="syntax-string">"your@email.com"</span>
+          <a href="mailto:anuragkumarmsd456@gmail.com" className="syntax-string hover:underline">"anuragkumarmsd456@gmail.com"</a>
         </div>
         <div className="text-sm">
           <span className="syntax-property">GITHUB</span>
           <span className="text-foreground">=</span>
-          <span className="syntax-string">"https://github.com/yourusername"</span>
+          <a href="https://github.com/Yadav-Anurag24" target="_blank" rel="noopener noreferrer" className="syntax-string hover:underline">"https://github.com/Yadav-Anurag24"</a>
         </div>
         <div className="text-sm">
           <span className="syntax-property">LINKEDIN</span>
           <span className="text-foreground">=</span>
-          <span className="syntax-string">"https://linkedin.com/in/yourprofile"</span>
+          <a href="https://www.linkedin.com/in/anurag24kumar" target="_blank" rel="noopener noreferrer" className="syntax-string hover:underline">"https://linkedin.com/in/anurag24kumar"</a>
         </div>
         <div className="text-sm">
           <span className="syntax-property">LOCATION</span>
           <span className="text-foreground">=</span>
-          <span className="syntax-string">"India"</span>
+          <span className="syntax-string">"India 🇮🇳"</span>
         </div>
       </div>
 
