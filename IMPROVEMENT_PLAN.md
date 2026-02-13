@@ -33,17 +33,32 @@ All placeholder content has been replaced with real details:
 - [x] `TerminalContext.tsx` — `github` and `linkedin` commands open real profile URLs
 - [x] `TerminalContext.tsx` — `whoami` returns `anurag@portfolio:~$`
 
-### 3. Bundle Bloat — ~30 Unused Packages
+### 3. ~~Bundle Bloat~~ ✅ DONE
 
-The client ships **40+ Radix UI packages**, `recharts` (~400KB), `embla-carousel`, `react-day-picker`, `input-otp`, etc. — the vast majority are **never imported** anywhere. Additionally, both `@vitejs/plugin-react` AND `@vitejs/plugin-react-swc` are installed (only one needed), and `@tanstack/react-query` wraps the app but zero queries use it. Cleaning this alone could cut the bundle by **50%+**.
+Full dependency audit and cleanup completed:
 
-- [ ] Audit and remove all unused Radix UI packages
-- [ ] Remove `recharts`, `embla-carousel-react`, `react-day-picker`, `input-otp`, `date-fns`
-- [ ] Remove either `@vitejs/plugin-react` or `@vitejs/plugin-react-swc` (keep one)
-- [ ] Remove `@tanstack/react-query` or actually use it for API calls
-- [ ] Remove duplicate toast systems (Radix Toaster + Sonner — pick one)
-- [ ] Remove `lovable-tagger` from devDependencies
-- [ ] Remove `App.css` Vite boilerplate (logo spin animation, `.read-the-docs`)
+**Removed 37 unused production dependencies:**
+- [x] 20 Radix UI packages (`accordion`, `alert-dialog`, `aspect-ratio`, `avatar`, `checkbox`, `collapsible`, `context-menu`, `dropdown-menu`, `label`, `menubar`, `navigation-menu`, `popover`, `progress`, `radio-group`, `scroll-area`, `select`, `separator`, `slider`, `switch`, `tabs`, `toggle`, `toggle-group`, `slot`, `toast`)
+- [x] `@tanstack/react-query` — QueryClient was set up but no queries existed
+- [x] `@hookform/resolvers`, `react-hook-form`, `zod` — form library never used
+- [x] `recharts` (~400KB), `embla-carousel-react`, `react-day-picker`, `date-fns`
+- [x] `input-otp`, `react-resizable-panels`, `cmdk`, `vaul`
+- [x] `sonner`, `next-themes` — dual toast system removed (neither was used by app code)
+
+**Removed 2 unused dev dependencies:**
+- [x] `@vitejs/plugin-react-swc` — duplicate of `@vitejs/plugin-react`
+- [x] `lovable-tagger` — generator artifact
+
+**Cleaned up code:**
+- [x] `App.tsx` — removed `QueryClientProvider`, `<Toaster />`, `<Sonner />` wrappers
+- [x] Deleted `App.css` (Vite boilerplate — logo spin, `.read-the-docs`)
+- [x] Deleted 46 unused UI component files from `src/components/ui/`
+- [x] Deleted duplicate `hooks/use-toast.ts`
+
+**Added missing dependency:**
+- [x] `@radix-ui/react-visually-hidden` — used in `CommandPalette.tsx` but was missing from `package.json`
+
+**Result:** Production deps went from **50 → 13**. CSS reduced from 27.44 KB → 24.01 KB. Only 3 UI files remain (`dialog.tsx`, `hover-card.tsx`, `tooltip.tsx`).
 
 ### 4. Broken Interactions
 
