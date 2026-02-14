@@ -8,6 +8,8 @@ interface CommandPaletteProps {
   isOpen: boolean;
   onClose: () => void;
   onSelectFile: (fileName: string) => void;
+  onToggleTerminal?: () => void;
+  onToggleSidebar?: () => void;
 }
 
 const files = [
@@ -25,7 +27,7 @@ const commands = [
   { name: 'Download Resume', shortcut: '', action: 'resume' },
 ];
 
-const CommandPalette = ({ isOpen, onClose, onSelectFile }: CommandPaletteProps) => {
+const CommandPalette = ({ isOpen, onClose, onSelectFile, onToggleTerminal, onToggleSidebar }: CommandPaletteProps) => {
   const [search, setSearch] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [mode, setMode] = useState<'commands' | 'files'>('commands');
@@ -66,8 +68,17 @@ const CommandPalette = ({ isOpen, onClose, onSelectFile }: CommandPaletteProps) 
         if (command.action === 'file') {
           setMode('files');
           setSearch('');
+        } else if (command.action === 'terminal') {
+          onToggleTerminal?.();
+          onClose();
+        } else if (command.action === 'sidebar') {
+          onToggleSidebar?.();
+          onClose();
+        } else if (command.action === 'resume') {
+          // Download resume — opens resume link or triggers download
+          window.open('https://github.com/Yadav-Anurag24', '_blank');
+          onClose();
         } else {
-          // Handle other commands
           onClose();
         }
       }

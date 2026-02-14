@@ -4,7 +4,7 @@ const projects = [
         name: "Smart Parking Finder",
         description: "IoT-based app to find parking slots in real-time.",
         techStack: ["Ionic", "Angular", "Node.js", "Google Maps API"],
-        githubLink: "https://github.com/yourusername/parking-app",
+        githubLink: "https://github.com/Yadav-Anurag24/parking-app",
         liveLink: null,
         status: "Completed",
         featured: true
@@ -14,7 +14,7 @@ const projects = [
         name: "HPCL Dealer App",
         description: "Official mobile app for HPCL dealers to track inventory.",
         techStack: ["React Native", "Firebase", "Redux"],
-        githubLink: "https://github.com/yourusername/hpcl-app",
+        githubLink: "https://github.com/Yadav-Anurag24/hpcl-app",
         liveLink: null,
         status: "In Development",
         features: ["Real-time slots", "Google Maps", "Payment Gateway"]
@@ -24,7 +24,7 @@ const projects = [
         name: "Bookstore Auth System",
         description: "Secure authentication system with role-based access control.",
         techStack: ["Node.js", "Express", "JWT", "MongoDB"],
-        githubLink: "https://github.com/yourusername/bookstore-auth",
+        githubLink: "https://github.com/Yadav-Anurag24/bookstore-auth",
         liveLink: null,
         status: "Completed",
         featured: false

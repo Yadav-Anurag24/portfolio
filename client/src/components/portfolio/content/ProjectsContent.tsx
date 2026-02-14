@@ -203,14 +203,35 @@ const ProjectsContent = () => {
              )}
 
               <div className="flex gap-2 pt-2">
-                <button className="flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs rounded bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
-                  <ExternalLink className="w-3 h-3" />
-                  View Demo
-                </button>
-                <button className="flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs rounded bg-muted text-foreground hover:bg-muted/80 transition-colors">
-                  <Github className="w-3 h-3" />
-                  Source
-                </button>
+                {project.liveLink && (
+                  <a
+                    href={project.liveLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs rounded bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <ExternalLink className="w-3 h-3" />
+                    View Demo
+                  </a>
+                )}
+                {project.githubLink && (
+                  <a
+                    href={project.githubLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 flex items-center justify-center gap-1.5 py-1.5 text-xs rounded bg-muted text-foreground hover:bg-muted/80 transition-colors"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    <Github className="w-3 h-3" />
+                    Source
+                  </a>
+                )}
+                {!project.liveLink && !project.githubLink && (
+                  <span className="flex-1 text-center py-1.5 text-xs text-muted-foreground italic">
+                    Links coming soon
+                  </span>
+                )}
               </div>
             </div>
           </HoverCardContent>

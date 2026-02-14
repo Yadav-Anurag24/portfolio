@@ -1,8 +1,10 @@
 import { motion } from 'framer-motion';
 import { useTerminal } from '@/contexts/TerminalContext';
+import { useNavigation } from '@/contexts/NavigationContext';
 
 const ReadmeContent = () => {
   const { addLog } = useTerminal();
+  const { navigateToFile } = useNavigation();
 
   return (
     <motion.div
@@ -121,22 +123,46 @@ const ReadmeContent = () => {
         </div>
         <div>
           <span className="syntax-keyword">→</span>{' '}
-          <span className="syntax-function underline cursor-pointer">AboutMe.ts</span>
+          <span
+            className="syntax-function underline cursor-pointer hover:text-primary transition-colors"
+            onClick={() => navigateToFile('AboutMe.ts')}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === 'Enter' && navigateToFile('AboutMe.ts')}
+          >AboutMe.ts</span>
           <span className="text-muted-foreground"> - Learn more about me</span>
         </div>
         <div>
           <span className="syntax-keyword">→</span>{' '}
-          <span className="syntax-function underline cursor-pointer">skills.json</span>
+          <span
+            className="syntax-function underline cursor-pointer hover:text-primary transition-colors"
+            onClick={() => navigateToFile('skills.json')}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === 'Enter' && navigateToFile('skills.json')}
+          >skills.json</span>
           <span className="text-muted-foreground"> - My tech dependencies</span>
         </div>
         <div>
           <span className="syntax-keyword">→</span>{' '}
-          <span className="syntax-function underline cursor-pointer">Projects.jsx</span>
+          <span
+            className="syntax-function underline cursor-pointer hover:text-primary transition-colors"
+            onClick={() => navigateToFile('Projects.jsx')}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === 'Enter' && navigateToFile('Projects.jsx')}
+          >Projects.jsx</span>
           <span className="text-muted-foreground"> - View my work</span>
         </div>
         <div>
           <span className="syntax-keyword">→</span>{' '}
-          <span className="syntax-function underline cursor-pointer">ContactForm.tsx</span>
+          <span
+            className="syntax-function underline cursor-pointer hover:text-primary transition-colors"
+            onClick={() => navigateToFile('ContactForm.tsx')}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === 'Enter' && navigateToFile('ContactForm.tsx')}
+          >ContactForm.tsx</span>
           <span className="text-muted-foreground"> - Get in touch</span>
         </div>
       </div>

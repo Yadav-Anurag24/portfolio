@@ -24,6 +24,7 @@ app.use(express.json());
 // Routes
 app.use('/api/projects', require('./routes/projectRoutes'));
 app.use('/api/contact', require('./routes/contactRoutes'));
+app.use('/api/github', require('./routes/githubRoutes'));
 
 // Health Check
 app.get('/', (req, res) => {

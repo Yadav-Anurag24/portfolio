@@ -60,45 +60,81 @@ Full dependency audit and cleanup completed:
 
 **Result:** Production deps went from **50 → 13**. CSS reduced from 27.44 KB → 24.01 KB. Only 3 UI files remain (`dialog.tsx`, `hover-card.tsx`, `tooltip.tsx`).
 
-### 4. Broken Interactions
+### 4. ~~Broken Interactions~~ ✅ DONE
 
-- [ ] **README.md navigation links** ("→ AboutMe.ts", etc.) have styling but **no `onClick` handler** — wire them up
-- [ ] **Command Palette actions** like "Toggle Terminal", "Toggle Sidebar", and "Download Resume" only close the palette without performing the action
-- [ ] **Project card buttons** ("View Demo" / "Source Code") are `<button>` elements with **no handlers**
-- [ ] **ActivityBar panels** — clicking Search, Source Control, Extensions closes the sidebar instead of showing contextual content
+All 4 broken interactions have been fixed:
+
+**README.md navigation links:**
+- [x] The "→ AboutMe.ts", "→ skills.json", "→ Projects.jsx", "→ ContactForm.tsx" links now have `onClick` handlers that navigate to the correct file
+- [x] Added `role="button"`, `tabIndex`, `onKeyDown` for keyboard accessibility
+- [x] Added hover color transition for visual feedback
+- [x] Created `NavigationContext` to allow any child component to trigger file navigation
+
+**Command Palette actions:**
+- [x] "Toggle Terminal" (`Ctrl+\``) now actually toggles the terminal panel
+- [x] "Toggle Sidebar" (`Ctrl+B`) now actually toggles the sidebar
+- [x] "Download Resume" now opens your GitHub profile (update with actual resume URL later)
+- [x] All actions properly close the palette after executing
+
+**Project card buttons:**
+- [x] "View Demo" and "Source" are now real `<a>` links using `project.liveLink` and `project.githubLink` from the server data
+- [x] Buttons conditionally render based on whether the project has a link
+- [x] Shows "Links coming soon" fallback if neither URL exists
+- [x] Fixed placeholder GitHub usernames in `server/data/projects.js` → `Yadav-Anurag24`
+
+**ActivityBar panels:**
+- [x] Clicking an ActivityBar icon now toggles the sidebar (click again to close)
+- [x] **Search panel** — shows a search input with placeholder UI
+- [x] **Source Control panel** — shows mock git changes and current branch
+- [x] **Extensions panel** — shows installed extensions list (One Dark Pro, Prettier, ESLint, Tailwind CSS)
 
 ---
 
 ## PART B — Features That Will Make You Stand Out
 
-### 5. Real Interactive Terminal with Portfolio Commands
+### 5. ~~Real Interactive Terminal with Portfolio Commands~~ ✅ DONE
 
-The terminal is already good (11 commands), but elevate it to make visitors stay:
+Terminal expanded from 11 to 19 commands with rich interactive features:
 
-- [ ] `cat resume.pdf` → Opens/downloads resume
-- [ ] `ls projects/` → Lists projects in a tree format
-- [ ] `open <project-name>` → Navigates to that project detail
-- [ ] `neofetch` → Shows a styled system-info-like block with tech stack, location, experience
-- [ ] `history` → Shows command history
-- [ ] `sudo hire-me` → Fun Easter egg with a "permission granted" animation
-- [ ] `matrix` → Trigger a Matrix-style rain animation in the terminal
-- [ ] Add **tab-autocomplete** for commands
+- [x] `cat resume.pdf` → Downloads resume (triggers file download from /public/)
+- [x] `ls projects/` → Lists all projects in a styled tree format with tech stacks & statuses
+- [x] `open <project-name>` → Shows project details and opens GitHub repo (supports shortcuts: `parking`, `hpcl`, `bookstore`)
+- [x] `neofetch` → ASCII art system-info card showing tech stack, location, shell, DE, etc.
+- [x] `history` → Shows numbered command history
+- [x] `sudo hire-me` → Easter egg with "ACCESS GRANTED" box art and contact details
+- [x] `matrix` → Full Matrix-style green rain animation on a canvas overlay (exit by pressing any key or clicking)
+- [x] `banner` → ASCII art name banner (bonus command)
+- [x] **Tab-autocomplete** for all commands with ghost-text hint
+- [x] **Ctrl+L** shortcut to clear terminal
+- [x] New `ascii` log type with keyword-colored styling for ASCII art blocks
+- [x] Command history moved to context (shared state, accessible via `history` command)
+- [x] Terminal default height increased from 150px → 200px for better readability
 
-### 6. Real-time "Git Activity" Panel
+### 6. ~~Real-time "Git Activity" Panel~~ ✅ DONE
 
-Instead of showing nothing when clicking Source Control in the Activity Bar:
+The Source Control sidebar panel now fetches real data from the GitHub API:
 
-- [ ] Show a mock git log of actual GitHub contributions
-- [ ] Use the GitHub API to fetch recent commits and render them as a VS Code Source Control diff view
-- [ ] Show a contribution heatmap (like GitHub's green squares) styled in VS Code theme colors
+- [x] Fetches public events from `api.github.com/users/Yadav-Anurag24/events/public` (up to 100 events)
+- [x] **Contribution heatmap** — 16-week grid of colored squares (VS Code theme green: `syntax-string`) with day/month labels, intensity legend, and hover tooltips showing date + event count
+- [x] **Recent Commits** — grouped by repository, showing commit message, short SHA, and relative time; animated entry with Framer Motion
+- [x] **Activity Feed** — non-commit events (PRs, issues, stars, forks, branch creation) with emoji icons and descriptions
+- [x] **Branch indicator** showing `main` with last-fetched timestamp
+- [x] **Refresh button** with spin animation during loading
+- [x] **External link** to open full GitHub profile
+- [x] Loading skeleton with pulse animation, error state with retry button, and empty state fallback
+- [x] Replaced the old inline mock git panel (hardcoded "M README.md" / "U skills.json") with the real component
 
-### 7. Extensions Panel with Tech Stack
+### 7. ~~Extensions Panel with Tech Stack~~ ✅ DONE
 
-When clicking Extensions in the Activity Bar:
+The Extensions sidebar panel now renders the full tech stack as "installed extensions":
 
-- [ ] Render skills/tools as "installed extensions" (with icons, star ratings = proficiency, install count = years of experience)
-- [ ] Add a search bar to filter them
-- [ ] Click an "extension" to see a detail page mimicking VS Code's extension detail view
+- [x] **18 extensions** across 6 categories (Languages, Frontend, Backend, DevOps, Tools, Themes) — each with emoji icon, colored background, publisher, description, star rating, and experience duration
+- [x] **Star ratings** (1-5 filled stars) represent proficiency level; "installs" column shows years of experience
+- [x] **Searchable** — live filter across name, publisher, description, category, and tags
+- [x] **Category tabs** — filter by All, Languages, Frontend, Backend, DevOps, Tools, Themes with item counts
+- [x] **Detail view** — clicking any extension opens a full detail page mimicking VS Code's extension detail UI with: large icon, publisher, star rating, "Installed" badge, experience/version/category/proficiency grid, long description, and tag chips
+- [x] Back-navigation from detail → list with animated transitions (Framer Motion)
+- [x] Replaced old inline mock extensions panel (4 hardcoded items) with the real component
 
 ### 8. Search Panel with Full-Text Search
 
