@@ -11,6 +11,7 @@ import CommandPalette from './CommandPalette';
 import Breadcrumbs from './Breadcrumbs';
 import GitActivityPanel from './GitActivityPanel';
 import ExtensionsPanel from './ExtensionsPanel';
+import SearchPanel from './SearchPanel';
 import { TerminalProvider, useTerminal } from '@/contexts/TerminalContext';
 import { NavigationProvider, useNavigation } from '@/contexts/NavigationContext';
 
@@ -143,19 +144,7 @@ const CodeEditorLayoutInner = () => {
                 <FileExplorer activeFile={activeFile} onFileSelect={handleFileSelect} />
               )}
               {activePanel === 'search' && (
-                <div className="p-4 space-y-3">
-                  <div className="text-xs text-muted-foreground uppercase tracking-wider px-2">Search</div>
-                  <div className="flex items-center gap-2 px-2">
-                    <input
-                      type="text"
-                      placeholder="Search portfolio..."
-                      className="w-full px-2 py-1.5 bg-muted/50 border border-border rounded text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/50 font-mono"
-                    />
-                  </div>
-                  <div className="px-2 py-8 text-center text-xs text-muted-foreground">
-                    Type to search across all files
-                  </div>
-                </div>
+                <SearchPanel onFileSelect={handleFileSelect} />
               )}
               {activePanel === 'git' && (
                 <GitActivityPanel />

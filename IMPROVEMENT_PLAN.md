@@ -136,12 +136,24 @@ The Extensions sidebar panel now renders the full tech stack as "installed exten
 - [x] Back-navigation from detail → list with animated transitions (Framer Motion)
 - [x] Replaced old inline mock extensions panel (4 hardcoded items) with the real component
 
-### 8. Search Panel with Full-Text Search
+### 8. Search Panel with Full-Text Search ✅ DONE
 
 When clicking Search:
 
-- [ ] Let visitors search across all content (projects, skills, about me)
-- [ ] Show results in VS Code's search results format with file name, line number, and highlighted matches
+- [x] Let visitors search across all content (projects, skills, about me)
+- [x] Show results in VS Code's search results format with file name, line number, and highlighted matches
+
+**What was done:**
+- Created `SearchPanel.tsx` component with VS Code-style full-text search UI
+- Built a static searchable index across all 5 content files (README.md, AboutMe.ts, skills.json, Projects.jsx, ContactForm.tsx) with file paths and line numbers
+- Search results grouped by file with collapsible file headers, line numbers, and highlighted match text
+- Match highlighting uses VS Code's orange/amber highlight style (`#613214` bg, `#e8b06e` text)
+- Toggle buttons for **Case Sensitive**, **Whole Word**, and **Regex** search modes
+- Real-time search as-you-type with 2-character minimum threshold
+- Results count summary ("X results in Y files")
+- Each result is clickable — navigates to the matching file via `NavigationContext`
+- Empty state with search suggestions ("Try: react, nodejs, backend")
+- Replaced inline mock search panel in `CodeEditorLayout.tsx` with the real component
 
 ### 9. VS Code Settings Panel
 
