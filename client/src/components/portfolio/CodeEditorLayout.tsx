@@ -12,8 +12,10 @@ import Breadcrumbs from './Breadcrumbs';
 import GitActivityPanel from './GitActivityPanel';
 import ExtensionsPanel from './ExtensionsPanel';
 import SearchPanel from './SearchPanel';
+import SettingsPanel from './SettingsPanel';
 import { TerminalProvider, useTerminal } from '@/contexts/TerminalContext';
 import { NavigationProvider, useNavigation } from '@/contexts/NavigationContext';
+import { SettingsProvider } from '@/contexts/SettingsContext';
 
 const CodeEditorLayoutInner = () => {
   const [activeFile, setActiveFile] = useState('README.md');
@@ -85,6 +87,11 @@ const CodeEditorLayoutInner = () => {
         e.preventDefault();
         setIsSidebarOpen((prev) => !prev);
       }
+      // Ctrl+, for settings
+      if (e.ctrlKey && e.key === ',') {
+        e.preventDefault();
+        setActivePanel((prev) => prev === 'settings' ? '' : 'settings');
+      }
     };
 
     window.addEventListener('keydown', handleKeyDown);
@@ -151,6 +158,9 @@ const CodeEditorLayoutInner = () => {
               )}
               {activePanel === 'extensions' && (
                 <ExtensionsPanel />
+              )}
+              {activePanel === 'settings' && (
+                <SettingsPanel />
               )}
             </motion.aside>
           )}
@@ -223,6 +233,7 @@ const CodeEditorLayoutInner = () => {
         onSelectFile={handleFileSelect}
         onToggleTerminal={() => setIsTerminalOpen((prev) => !prev)}
         onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
+        onOpenSettings={() => setActivePanel((prev) => prev === 'settings' ? '' : 'settings')}
       />
     </div>
   );
@@ -230,11 +241,13 @@ const CodeEditorLayoutInner = () => {
 
 const CodeEditorLayout = () => {
   return (
-    <TerminalProvider>
-      <NavigationProvider>
-        <CodeEditorLayoutInner />
-      </NavigationProvider>
-    </TerminalProvider>
+    <SettingsProvider>
+      <TerminalProvider>
+        <NavigationProvider>
+          <CodeEditorLayoutInner />
+        </NavigationProvider>
+      </TerminalProvider>
+    </SettingsProvider>
   );
 };
 

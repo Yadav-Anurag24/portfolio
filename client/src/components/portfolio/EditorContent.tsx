@@ -1,10 +1,13 @@
+import { useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import LineNumbers from './LineNumbers';
+import Minimap from './Minimap';
 import ReadmeContent from './content/ReadmeContent';
 import ProjectsContent from './content/ProjectsContent';
 import StackContent from './content/StackContent';
 import ContactContent from './content/ContactContent';
 import AboutMeContent from './content/AboutMeContent';
+import { useSettings } from '@/contexts/SettingsContext';
 
 interface EditorContentProps {
   activeFile: string;
@@ -49,13 +52,22 @@ const getContent = (file: string) => {
 };
 
 const EditorContent = ({ activeFile }: EditorContentProps) => {
+  const { settings } = useSettings();
+  const scrollRef = useRef<HTMLDivElement>(null);
+
   return (
     <div className="flex flex-1 overflow-hidden">
       {/* Line numbers */}
-      <LineNumbers count={getLineCount(activeFile)} />
+      {settings.showLineNumbers && (
+        <LineNumbers count={getLineCount(activeFile)} />
+      )}
 
       {/* Content */}
-      <div className="flex-1 p-4 overflow-y-auto font-mono text-sm">
+      <div
+        ref={scrollRef}
+        className="flex-1 p-4 overflow-y-auto font-mono"
+        style={{ fontSize: `${settings.fontSize}px` }}
+      >
         <AnimatePresence mode="wait">
           <motion.div
             key={activeFile}
@@ -68,6 +80,11 @@ const EditorContent = ({ activeFile }: EditorContentProps) => {
           </motion.div>
         </AnimatePresence>
       </div>
+
+      {/* Minimap */}
+      {settings.showMinimap && (
+        <Minimap activeFile={activeFile} scrollContainerRef={scrollRef} />
+      )}
     </div>
   );
 };

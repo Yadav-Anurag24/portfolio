@@ -1,4 +1,4 @@
-import { Files, Search, GitBranch, Puzzle, User } from 'lucide-react';
+import { Files, Search, GitBranch, Puzzle, Settings } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
 interface ActivityBarProps {
@@ -49,12 +49,23 @@ const ActivityBar = ({ activePanel, onPanelChange }: ActivityBarProps) => {
       {/* Bottom icons */}
       <Tooltip delayDuration={300}>
         <TooltipTrigger asChild>
-          <button className="w-12 h-12 flex items-center justify-center text-muted-foreground hover:text-foreground transition-colors">
-            <User className="w-6 h-6" />
+          <button
+            onClick={() => onPanelChange('settings')}
+            className={`w-12 h-12 flex items-center justify-center relative transition-colors
+              ${activePanel === 'settings'
+                ? 'text-foreground'
+                : 'text-muted-foreground hover:text-foreground'
+              }`}
+          >
+            {activePanel === 'settings' && (
+              <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-foreground" />
+            )}
+            <Settings className="w-6 h-6" />
           </button>
         </TooltipTrigger>
-        <TooltipContent side="right">
-          <span>Account</span>
+        <TooltipContent side="right" className="flex items-center gap-2">
+          <span>Settings</span>
+          <span className="text-muted-foreground text-xs">Ctrl+,</span>
         </TooltipContent>
       </Tooltip>
     </div>

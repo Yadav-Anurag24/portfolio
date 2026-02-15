@@ -10,6 +10,7 @@ interface CommandPaletteProps {
   onSelectFile: (fileName: string) => void;
   onToggleTerminal?: () => void;
   onToggleSidebar?: () => void;
+  onOpenSettings?: () => void;
 }
 
 const files = [
@@ -24,10 +25,11 @@ const commands = [
   { name: 'Go to File...', shortcut: 'Ctrl+P', action: 'file' },
   { name: 'Toggle Terminal', shortcut: 'Ctrl+`', action: 'terminal' },
   { name: 'Toggle Sidebar', shortcut: 'Ctrl+B', action: 'sidebar' },
+  { name: 'Open Settings', shortcut: 'Ctrl+,', action: 'settings' },
   { name: 'Download Resume', shortcut: '', action: 'resume' },
 ];
 
-const CommandPalette = ({ isOpen, onClose, onSelectFile, onToggleTerminal, onToggleSidebar }: CommandPaletteProps) => {
+const CommandPalette = ({ isOpen, onClose, onSelectFile, onToggleTerminal, onToggleSidebar, onOpenSettings }: CommandPaletteProps) => {
   const [search, setSearch] = useState('');
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [mode, setMode] = useState<'commands' | 'files'>('commands');
@@ -73,6 +75,9 @@ const CommandPalette = ({ isOpen, onClose, onSelectFile, onToggleTerminal, onTog
           onClose();
         } else if (command.action === 'sidebar') {
           onToggleSidebar?.();
+          onClose();
+        } else if (command.action === 'settings') {
+          onOpenSettings?.();
           onClose();
         } else if (command.action === 'resume') {
           // Download resume — opens resume link or triggers download

@@ -155,19 +155,47 @@ When clicking Search:
 - Empty state with search suggestions ("Try: react, nodejs, backend")
 - Replaced inline mock search panel in `CodeEditorLayout.tsx` with the real component
 
-### 9. VS Code Settings Panel
+### 9. VS Code Settings Panel ✅ DONE
 
 Add a gear icon or `Ctrl+,` shortcut to open a settings panel where visitors can:
 
-- [ ] **Switch themes** — One Dark Pro, Dracula, Monokai, GitHub Light, Solarized
-- [ ] **Change font size**
-- [ ] **Toggle minimap**
-- [ ] **Toggle line numbers**
-- [ ] Persist preferences in `localStorage`
+- [x] **Switch themes** — One Dark Pro, Dracula, Monokai, GitHub Light, Solarized
+- [x] **Change font size**
+- [x] **Toggle minimap**
+- [x] **Toggle line numbers**
+- [x] Persist preferences in `localStorage`
 
-### 10. Minimap
+**What was done:**
+- Created `SettingsContext.tsx` with 5 complete theme definitions (One Dark Pro, Dracula, Monokai, GitHub Light, Solarized Dark), each with 40+ CSS custom properties for full theme coverage
+- Created `SettingsPanel.tsx` — VS Code-style settings UI with:
+  - Search/filter for settings
+  - Collapsible **Appearance** section with theme picker featuring mini code previews with real syntax colors, dark/light badge, active check mark
+  - Collapsible **Editor** section with font size +/- controls (10-24px range), minimap toggle, line numbers toggle
+  - Active Configuration summary at bottom showing JSON-formatted current settings
+  - Reset all button
+- Added **gear icon** to ActivityBar bottom (replacing Account), with active indicator and tooltip
+- Added **Ctrl+,** keyboard shortcut to toggle settings panel
+- Added **"Open Settings" command** in Command Palette
+- Wired font size into `EditorContent.tsx` via inline style
+- Wired line numbers toggle into `EditorContent.tsx` — conditionally renders `LineNumbers`
+- Theme switching applies instantly via CSS custom properties on `:root`
+- All preferences persisted to `localStorage` under `portfolio-settings` key
+- Wrapped app with `SettingsProvider` in `CodeEditorLayout.tsx`
 
-- [ ] Add a VS Code-style minimap on the right side of the editor content — a scaled-down, abstract representation of the content that visitors can click to navigate
+### 10. Minimap ✅ DONE
+
+- [x] Add a VS Code-style minimap on the right side of the editor content — a scaled-down, abstract representation of the content that visitors can click to navigate
+
+**What was done:**
+- Created `Minimap.tsx` component with a full abstract code representation for each file (README.md, AboutMe.ts, skills.json, Projects.jsx, ContactForm.tsx)
+- Each minimap line is composed of colored segments using the current theme's syntax highlighting CSS variables (keyword, function, string, variable, property, comment, number, tag)
+- **Viewport indicator** — a translucent slider shows which portion of the content is currently visible, updates in real-time on scroll
+- **Click-to-navigate** — clicking anywhere on the minimap smooth-scrolls the editor content to that position
+- **Drag support** — the viewport indicator can be dragged up/down to scrub through the content
+- Integrated into `EditorContent.tsx` to the right of the content area, gated by `settings.showMinimap` from SettingsContext
+- Uses a ref on the scroll container to sync scroll position bidirectionally
+- Hidden on mobile (`hidden md:flex`) to save screen space
+- 60px wide with 3px line height, matching VS Code's minimap proportions
 
 ### 11. "Problems" Tab in Terminal
 
