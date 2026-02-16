@@ -1,4 +1,4 @@
-import { GitBranch, Check, X, RefreshCw, Github, Linkedin, Terminal as TerminalIcon } from 'lucide-react';
+import { GitBranch, AlertTriangle, X, RefreshCw, Github, Linkedin, Terminal as TerminalIcon } from 'lucide-react';
 
 interface StatusBarProps {
   onTerminalToggle?: () => void;
@@ -17,13 +17,13 @@ const StatusBar = ({ onTerminalToggle, isTerminalOpen }: StatusBarProps) => {
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1 cursor-pointer hover:bg-white/10 px-1 rounded transition-colors">
+          <div className="flex items-center gap-1 cursor-pointer hover:bg-white/10 px-1 rounded transition-colors" title="Errors">
             <X className="w-3.5 h-3.5" />
-            <span>0</span>
+            <span>2</span>
           </div>
-          <div className="flex items-center gap-1 cursor-pointer hover:bg-white/10 px-1 rounded transition-colors">
-            <Check className="w-3.5 h-3.5" />
-            <span>0</span>
+          <div className="flex items-center gap-1 cursor-pointer hover:bg-white/10 px-1 rounded transition-colors" title="Warnings">
+            <AlertTriangle className="w-3.5 h-3.5" />
+            <span>4</span>
           </div>
         </div>
       </div>

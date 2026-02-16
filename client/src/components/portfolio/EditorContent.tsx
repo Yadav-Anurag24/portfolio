@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import LineNumbers from './LineNumbers';
 import Minimap from './Minimap';
+import { PeekProvider } from './PeekDefinition';
 import ReadmeContent from './content/ReadmeContent';
 import ProjectsContent from './content/ProjectsContent';
 import StackContent from './content/StackContent';
@@ -56,36 +57,38 @@ const EditorContent = ({ activeFile }: EditorContentProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   return (
-    <div className="flex flex-1 overflow-hidden">
-      {/* Line numbers */}
-      {settings.showLineNumbers && (
-        <LineNumbers count={getLineCount(activeFile)} />
-      )}
+    <PeekProvider activeFile={activeFile}>
+      <div className="flex flex-1 overflow-hidden">
+        {/* Line numbers */}
+        {settings.showLineNumbers && (
+          <LineNumbers count={getLineCount(activeFile)} />
+        )}
 
-      {/* Content */}
-      <div
-        ref={scrollRef}
-        className="flex-1 p-4 overflow-y-auto font-mono"
-        style={{ fontSize: `${settings.fontSize}px` }}
-      >
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeFile}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-          >
-            {getContent(activeFile)}
-          </motion.div>
-        </AnimatePresence>
+        {/* Content */}
+        <div
+          ref={scrollRef}
+          className="flex-1 p-4 overflow-y-auto font-mono"
+          style={{ fontSize: `${settings.fontSize}px` }}
+        >
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeFile}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+            >
+              {getContent(activeFile)}
+            </motion.div>
+          </AnimatePresence>
+        </div>
+
+        {/* Minimap */}
+        {settings.showMinimap && (
+          <Minimap activeFile={activeFile} scrollContainerRef={scrollRef} />
+        )}
       </div>
-
-      {/* Minimap */}
-      {settings.showMinimap && (
-        <Minimap activeFile={activeFile} scrollContainerRef={scrollRef} />
-      )}
-    </div>
+    </PeekProvider>
   );
 };
 

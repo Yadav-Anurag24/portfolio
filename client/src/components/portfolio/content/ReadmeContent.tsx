@@ -1,10 +1,12 @@
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useTerminal } from '@/contexts/TerminalContext';
 import { useNavigation } from '@/contexts/NavigationContext';
+import { PeekableKeyword, usePeek, PeekPanel } from '../PeekDefinition';
 
 const ReadmeContent = () => {
   const { addLog } = useTerminal();
   const { navigateToFile } = useNavigation();
+  const { activeKeyword } = usePeek();
 
   return (
     <motion.div
@@ -60,12 +62,17 @@ const ReadmeContent = () => {
       {/* Description */}
       <div className="leading-7 text-foreground">
         I specialize in building robust backend systems using{' '}
-        <span className="syntax-keyword">Node.js</span>,{' '}
-        <span className="syntax-keyword">Express</span>, and cloud technologies.
+        <PeekableKeyword keyword="node" className="syntax-keyword">Node.js</PeekableKeyword>,{' '}
+        <PeekableKeyword keyword="express" className="syntax-keyword">Express</PeekableKeyword>, and cloud technologies.
         Experienced with mobile development using{' '}
-        <span className="syntax-function">React Native</span> and{' '}
-        <span className="syntax-function">Ionic/Angular</span>.
+        <PeekableKeyword keyword="react-native" className="syntax-function">React Native</PeekableKeyword> and{' '}
+        <PeekableKeyword keyword="ionic" className="syntax-function">Ionic/Angular</PeekableKeyword>.
       </div>
+      <AnimatePresence>
+        {activeKeyword && ['node', 'express', 'react-native', 'ionic'].includes(activeKeyword) && (
+          <PeekPanel keyword={activeKeyword} />
+        )}
+      </AnimatePresence>
 
       {/* Empty line */}
       <div className="leading-7">&nbsp;</div>

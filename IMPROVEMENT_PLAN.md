@@ -197,16 +197,43 @@ Add a gear icon or `Ctrl+,` shortcut to open a settings panel where visitors can
 - Hidden on mobile (`hidden md:flex`) to save screen space
 - 60px wide with 3px line height, matching VS Code's minimap proportions
 
-### 11. "Problems" Tab in Terminal
+### 11. "Problems" Tab in Terminal ✅ DONE
 
 Add a "Problems" tab alongside the Terminal:
 
-- [ ] Show mock lint warnings/errors that are actually fun facts
-- [ ] e.g., `⚠ Warning: developer.coffeeLevel is LOW (line 42)` or `✓ 0 errors in portfolio — ready for production`
+- [x] Show mock lint warnings/errors that are actually fun facts
+- [x] e.g., `⚠ Warning: developer.coffeeLevel is LOW (line 42)` or `✓ 0 errors in portfolio — ready for production`
 
-### 12. File Tab Preview with Peek Definition
+**What was done:**
+- Added **PROBLEMS** tab as the first tab in the terminal panel (alongside TERMINAL, OUTPUT, DEBUG CONSOLE)
+- Created `ProblemsPanel` component with 10 humorous mock lint/type-check problems:
+  - 2 errors: `Cannot find module "free-time"`, `Type 'procrastination' not assignable to 'Productivity'`
+  - 4 warnings: `developer.coffeeLevel is LOW`, `'sleep' declared but never used`, `Promise<Deadline> may reject`, `Variable 'weekendPlans' overwritten by 'bugs'`, `Deprecated: Array<Excuses>`
+  - 3 info: `Consider upgrading motivation to v2.0`, `portfolio.quality exceeds threshold`, `Tip: Run "sudo hire-me"`
+- Each problem shows severity icon (color-coded), message, source tag (e.g. `eslint(caffeine-check)`, `typescript(2307)`), and file location
+- **Filter bar** with buttons to filter by All, Errors, Warnings, Info — each with live counts
+- **Summary footer** with green checkmark: "✓ 0 real errors in portfolio — ready for production"
+- PROBLEMS tab header shows **error/warning count badges** with colored icons
+- OUTPUT and DEBUG CONSOLE tabs now show a friendly placeholder message
+- Updated **StatusBar** to show `2 errors` and `4 warnings` counts (matching the mock problems data) with proper icons
 
-- [ ] When hovering over certain keywords in content (like a tech name in Stack), show a "Peek Definition" popup mimicking VS Code's peek feature — showing a snippet about that technology and experience with it
+### 12. ~~File Tab Preview with Peek Definition~~ ✅ DONE
+
+- [x] When clicking certain keywords in content (like a tech name in Stack), show a "Peek Definition" popup mimicking VS Code's peek feature — showing a snippet about that technology and experience with it
+
+**What was done:**
+- Created `PeekDefinition.tsx` component with a full VS Code–style Peek Definition system
+- **27 peek definitions** covering all skills: Languages (TypeScript, JavaScript, Python, Java), Frontend (React, React Native, Angular, Ionic), Backend (Node.js, Express, NestJS), Databases (MongoDB, PostgreSQL, Redis), Cloud/DevOps (AWS, Docker, Kubernetes), Tools (Git, VS Code, Postman), Learning items (AWS SA cert, Cloud Computing, System Design), and Concepts (Backend Development, Cloud Architecture, DevOps, API Development)
+- Each definition is a **creative TypeScript-style type definition** describing proficiency, features, and projects — e.g., `declare module "react" { interface Skills { hooks: "useState" | "useEffect" | ... } }`
+- **PeekPanel** mimics VS Code's peek definition: blue left accent border, file path header with close button, syntax-highlighted code body with line numbers, summary footer
+- **Simple syntax highlighter** tokenizes definition code with proper coloring for keywords, strings, comments, properties, and numbers
+- **PeekableKeyword** component for inline keywords (used in ReadmeContent) with dotted underline and click-to-peek
+- **StackContent** — all 21 skill entries across dependencies, devDependencies, and learning are peekable. Clicking a skill name opens the peek definition inline below the line (pushes content down like VS Code). Added hint comment: `// 💡 Click any dependency to peek its definition`
+- **ReadmeContent** — inline tech keywords (Node.js, Express, React Native, Ionic/Angular) are peekable with PeekableKeyword component, peek panel renders below the paragraph
+- **PeekProvider** wraps editor content in `EditorContent.tsx`, resets active peek on file change
+- **Escape key** closes the active peek panel
+- **Alias system** maps keyword variations (e.g., "Node.js" → "node", "AWS" → "aws-sdk", "k8s" → "kubernetes")
+- Theme-aware styling using CSS custom properties — works across all 5 themes
 
 ### 13. Notification System (Bottom-Right Toasts)
 

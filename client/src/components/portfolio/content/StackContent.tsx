@@ -1,4 +1,6 @@
-import { motion } from 'framer-motion';
+import { Fragment } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { usePeek, PeekPanel, hasDefinition } from '../PeekDefinition';
 
 const skills = {
   dependencies: {
@@ -54,6 +56,40 @@ const SkillBar = ({ name, level }: { name: string; level: number }) => (
 );
 
 const StackContent = () => {
+  const { activeKeyword, togglePeek } = usePeek();
+
+  const renderSkillEntry = (
+    name: string,
+    value: string,
+    isLast: boolean,
+    valueClass = 'syntax-string',
+  ) => (
+    <Fragment key={name}>
+      <div
+        className={`leading-7 ml-8 transition-colors${hasDefinition(name) ? ' cursor-pointer hover:bg-primary/5 rounded-sm' : ''}`}
+        onClick={() => hasDefinition(name) && togglePeek(name)}
+      >
+        <span
+          className={`syntax-property${
+            activeKeyword === name
+              ? ' border-b border-solid border-primary'
+              : hasDefinition(name)
+                ? ' border-b border-dotted border-[var(--syntax-property)]'
+                : ''
+          }`}
+        >
+          "{name}"
+        </span>
+        <span className="text-foreground">: </span>
+        <span className={valueClass}>"{value}"</span>
+        {!isLast && <span className="text-muted-foreground">,</span>}
+      </div>
+      <AnimatePresence>
+        {activeKeyword === name && <PeekPanel keyword={name} />}
+      </AnimatePresence>
+    </Fragment>
+  );
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 10 }}
@@ -67,6 +103,9 @@ const StackContent = () => {
       </div>
       <div className="leading-7">
         <span className="syntax-comment">{`// My technical dependencies and proficiency levels`}</span>
+      </div>
+      <div className="leading-7">
+        <span className="syntax-comment">{`// 💡 Click any dependency to peek its definition`}</span>
       </div>
 
       <div className="leading-7">&nbsp;</div>
@@ -82,14 +121,9 @@ const StackContent = () => {
         <span className="text-foreground">: {'{'}</span>
       </div>
 
-      {Object.entries(skills.dependencies).map(([key, value], index, arr) => (
-        <div key={key} className="leading-7 ml-8">
-          <span className="syntax-property">"{key}"</span>
-          <span className="text-foreground">: </span>
-          <span className="syntax-string">"{value}"</span>
-          {index < arr.length - 1 && <span className="text-muted-foreground">,</span>}
-        </div>
-      ))}
+      {Object.entries(skills.dependencies).map(([key, value], index, arr) =>
+        renderSkillEntry(key, value, index === arr.length - 1)
+      )}
 
       <div className="leading-7 ml-4">
         <span className="text-foreground">{'}'}</span>
@@ -104,14 +138,9 @@ const StackContent = () => {
         <span className="text-foreground">: {'{'}</span>
       </div>
 
-      {Object.entries(skills.devDependencies).map(([key, value], index, arr) => (
-        <div key={key} className="leading-7 ml-8">
-          <span className="syntax-property">"{key}"</span>
-          <span className="text-foreground">: </span>
-          <span className="syntax-string">"{value}"</span>
-          {index < arr.length - 1 && <span className="text-muted-foreground">,</span>}
-        </div>
-      ))}
+      {Object.entries(skills.devDependencies).map(([key, value], index, arr) =>
+        renderSkillEntry(key, value, index === arr.length - 1)
+      )}
 
       <div className="leading-7 ml-4">
         <span className="text-foreground">{'}'}</span>
@@ -126,14 +155,9 @@ const StackContent = () => {
         <span className="text-foreground">: {'{'}</span>
       </div>
 
-      {Object.entries(skills.learning).map(([key, value], index, arr) => (
-        <div key={key} className="leading-7 ml-8">
-          <span className="syntax-property">"{key}"</span>
-          <span className="text-foreground">: </span>
-          <span className="syntax-variable">"{value}"</span>
-          {index < arr.length - 1 && <span className="text-muted-foreground">,</span>}
-        </div>
-      ))}
+      {Object.entries(skills.learning).map(([key, value], index, arr) =>
+        renderSkillEntry(key, value, index === arr.length - 1, 'syntax-variable')
+      )}
 
       <div className="leading-7 ml-4">
         <span className="text-foreground">{'}'}</span>
