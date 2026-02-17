@@ -1,10 +1,12 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { useTerminal } from '@/contexts/TerminalContext';
+import { useContactNotification } from '@/contexts/NotificationContext';
 import { Send, Loader2 } from 'lucide-react';
 
 const ContactContent = () => {
   const { addLog } = useTerminal();
+  const { notifyContactSuccess, notifyContactError } = useContactNotification();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -36,16 +38,19 @@ const ContactContent = () => {
         // 3. Success Handling
         addLog('success', `> POST /api/contact - 200 OK`);
         addLog('output', `> Server Response: "${data.message}"`);
+        notifyContactSuccess();
         
         // Clear the form
         setFormData({ name: '', email: '', subject: '', message: '' });
       } else {
         // 4. Server Error Handling (e.g. missing fields)
         addLog('error', `> Server Error (400): ${data.message}`);
+        notifyContactError(data.message);
       }
     } catch (error) {
       // 5. Network Error Handling
       addLog('error', `> Network Error: Failed to reach localhost:5000`);
+      notifyContactError('Could not reach the server (localhost:5000). Is it running?');
       console.error(error);
     } finally {
       setIsSubmitting(false);

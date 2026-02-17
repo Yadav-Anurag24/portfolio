@@ -2,6 +2,7 @@ import { useRef } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import LineNumbers from './LineNumbers';
 import Minimap from './Minimap';
+import TypingReveal from './TypingReveal';
 import { PeekProvider } from './PeekDefinition';
 import ReadmeContent from './content/ReadmeContent';
 import ProjectsContent from './content/ProjectsContent';
@@ -34,15 +35,15 @@ const getLineCount = (file: string): number => {
 const getContent = (file: string) => {
   switch (file) {
     case 'README.md':
-      return <ReadmeContent />;
+      return <TypingReveal fileKey="README.md"><ReadmeContent /></TypingReveal>;
     case 'Projects.jsx':
-      return <ProjectsContent />;
+      return <TypingReveal fileKey="Projects.jsx"><ProjectsContent /></TypingReveal>;
     case 'skills.json':
-      return <StackContent />;
+      return <TypingReveal fileKey="skills.json"><StackContent /></TypingReveal>;
     case 'ContactForm.tsx':
-      return <ContactContent />;
+      return <TypingReveal fileKey="ContactForm.tsx"><ContactContent /></TypingReveal>;
     case 'AboutMe.ts':
-      return <AboutMeContent />;
+      return <TypingReveal fileKey="AboutMe.ts"><AboutMeContent /></TypingReveal>;
     default:
       return (
         <div className="text-muted-foreground italic">

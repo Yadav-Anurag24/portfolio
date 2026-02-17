@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
 import { ExternalLink, Github, Smartphone, Car, BookOpen, Code2 } from 'lucide-react';
 import { useTerminal } from '@/contexts/TerminalContext';
+import { useProjectNotification } from '@/contexts/NotificationContext';
 
 // Helper to map Server IDs to Icons/Colors (Since server sends JSON, not UI components)
 const getProjectAssets = (id) => {
@@ -16,9 +17,11 @@ const getProjectAssets = (id) => {
 
 const ProjectsContent = () => {
   const { addLog } = useTerminal();
+  const { notifyNewProject } = useProjectNotification();
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [hasNotified, setHasNotified] = useState(false);
 
   // FETCH DATA FROM YOUR SERVER
   useEffect(() => {
@@ -36,6 +39,11 @@ const ProjectsContent = () => {
         }));
 
         setProjects(enhancedData);
+        // Notify user once per session
+        if (!sessionStorage.getItem('projects-notified')) {
+          notifyNewProject();
+          sessionStorage.setItem('projects-notified', 'true');
+        }
       } catch (err) {
         console.error(err);
         setError("Failed to load projects from server.");

@@ -16,6 +16,7 @@ import SettingsPanel from './SettingsPanel';
 import { TerminalProvider, useTerminal } from '@/contexts/TerminalContext';
 import { NavigationProvider, useNavigation } from '@/contexts/NavigationContext';
 import { SettingsProvider } from '@/contexts/SettingsContext';
+import { NotificationProvider, useWelcomeNotification } from '@/contexts/NotificationContext';
 
 const CodeEditorLayoutInner = () => {
   const [activeFile, setActiveFile] = useState('README.md');
@@ -28,6 +29,9 @@ const CodeEditorLayoutInner = () => {
   
   const { addLog } = useTerminal();
   const { registerHandlers } = useNavigation();
+
+  // Show welcome notifications on first visit
+  useWelcomeNotification();
 
   const handleFileSelect = useCallback((fileName: string) => {
     setActiveFile(fileName);
@@ -242,11 +246,13 @@ const CodeEditorLayoutInner = () => {
 const CodeEditorLayout = () => {
   return (
     <SettingsProvider>
-      <TerminalProvider>
-        <NavigationProvider>
-          <CodeEditorLayoutInner />
-        </NavigationProvider>
-      </TerminalProvider>
+      <NotificationProvider>
+        <TerminalProvider>
+          <NavigationProvider>
+            <CodeEditorLayoutInner />
+          </NavigationProvider>
+        </TerminalProvider>
+      </NotificationProvider>
     </SettingsProvider>
   );
 };

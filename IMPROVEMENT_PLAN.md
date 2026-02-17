@@ -235,19 +235,45 @@ Add a "Problems" tab alongside the Terminal:
 - **Alias system** maps keyword variations (e.g., "Node.js" → "node", "AWS" → "aws-sdk", "k8s" → "kubernetes")
 - Theme-aware styling using CSS custom properties — works across all 5 themes
 
-### 13. Notification System (Bottom-Right Toasts)
+### 13. ~~Notification System (Bottom-Right Toasts)~~ ✅ DONE
 
 VS Code shows notifications in the bottom-right. Use this pattern for:
 
-- [ ] "Welcome! Try `Ctrl+K` to open Command Palette" on first visit
-- [ ] "New project added!" when viewing projects
-- [ ] "Message sent successfully!" after contact form submission
+- [x] "Welcome! Try `Ctrl+K` to open Command Palette" on first visit
+- [x] "New project added!" when viewing projects
+- [x] "Message sent successfully!" after contact form submission
 
-### 14. Typing Animation for Active File
+**What was done:**
+- Created `NotificationContext.tsx` with a full notification system:
+  - `NotificationProvider` wraps the app with a fixed bottom-right toast stack (z-100)
+  - `notify()` function accepts type (info/success/warning), title, message, custom icon, duration, and optional action buttons
+  - Toast animations via Framer Motion — slides in from right with spring physics, animated countdown progress bar
+  - Each toast auto-dismisses after configurable duration (default 6s), or can be manually closed
+  - Theme-aware styling using CSS custom properties — accent color border, tinted background per type
+- **Welcome notifications** (first visit only, tracked via `sessionStorage`):
+  - 1.5s: "Welcome to my Portfolio!" with Rocket icon + "Got it!" action button (8s duration)
+  - 4.5s: "Try the Terminal" with Terminal icon — hints Ctrl+` and `help` command
+  - 10s: "Keyboard Shortcuts" with Keyboard icon — hints Ctrl+B and Ctrl+,
+- **Project notification**: "Projects Loaded" toast when projects are fetched from server (once per session)
+- **Contact form notifications**: "Message Sent!" success toast on form submit, or "Failed to Send" warning toast on error
+- **Bell icon** added to StatusBar (between Terminal toggle and social links) — clicking shows "No New Notifications" toast
+- `NotificationProvider` wraps the app in `CodeEditorLayout.tsx` outside TerminalProvider
+- Pre-built hook helpers: `useWelcomeNotification`, `useProjectNotification`, `useContactNotification`, `useBellNotification`
 
-- [ ] When opening a file for the first time, animate the content appearing character by character (like a typewriter) — like code is being "written" in real-time
-- [ ] After it completes, the content stays static
-- [ ] Only trigger on first view, tracked via `sessionStorage`
+### 14. ~~Typing Animation for Active File~~ ✅ DONE
+
+- [x] When opening a file for the first time, animate the content appearing character by character (like a typewriter) — like code is being "written" in real-time
+- [x] After it completes, the content stays static
+- [x] Only trigger on first view, tracked via `sessionStorage`
+
+**What was done:**
+- Created `TypingReveal.tsx` component that wraps any content with a progressive line-by-line reveal animation
+- Simulates code being "typed" at ~120 characters/second (~375ms per line), using `max-height` transition with `overflow: hidden`
+- **Blinking cursor** at the reveal edge (foreground color, pulsing) — positioned precisely at the bottom of visible content
+- Uses `ResizeObserver` to accurately measure content height after render
+- **Click to skip** — clicking anywhere on the content instantly reveals everything, with a subtle "click to skip" hint in the corner
+- Tracked via `sessionStorage` with prefix `portfolio-typed-{fileName}` — only animates on first view per session, subsequent visits render instantly (zero overhead — early return with no wrapper div)
+- Wrapped all 5 content components in `EditorContent.tsx`: README.md, Projects.jsx, skills.json, ContactForm.tsx, AboutMe.ts
 
 ### 15. Interactive Resume as a `.pdf` Preview Tab
 

@@ -1,4 +1,5 @@
-import { GitBranch, AlertTriangle, X, RefreshCw, Github, Linkedin, Terminal as TerminalIcon } from 'lucide-react';
+import { GitBranch, AlertTriangle, X, RefreshCw, Github, Linkedin, Terminal as TerminalIcon, Bell } from 'lucide-react';
+import { useBellNotification } from '@/contexts/NotificationContext';
 
 interface StatusBarProps {
   onTerminalToggle?: () => void;
@@ -6,6 +7,8 @@ interface StatusBarProps {
 }
 
 const StatusBar = ({ onTerminalToggle, isTerminalOpen }: StatusBarProps) => {
+  const { notifyBell } = useBellNotification();
+
   return (
     <div className="h-6 bg-primary flex items-center justify-between px-3 text-xs text-primary-foreground shrink-0">
       {/* Left side */}
@@ -47,6 +50,15 @@ const StatusBar = ({ onTerminalToggle, isTerminalOpen }: StatusBarProps) => {
         <span className="hidden sm:inline cursor-pointer hover:bg-white/10 px-1 rounded transition-colors">UTF-8</span>
         <span className="cursor-pointer hover:bg-white/10 px-1 rounded transition-colors">TypeScript React</span>
         <span className="hidden sm:inline cursor-pointer hover:bg-white/10 px-1 rounded transition-colors">Prettier</span>
+
+        {/* Notification Bell */}
+        <button
+          onClick={notifyBell}
+          className="flex items-center gap-1 cursor-pointer hover:bg-white/10 px-1 rounded transition-colors"
+          title="Notifications"
+        >
+          <Bell className="w-3.5 h-3.5" />
+        </button>
 
         {/* Social Icons */}
         <div className="flex items-center gap-2 border-l border-white/20 pl-3 ml-1">
