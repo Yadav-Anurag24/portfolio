@@ -114,6 +114,8 @@ const CodeEditorLayoutInner = () => {
         return 'src/components/Projects.jsx';
       case 'ContactForm.tsx':
         return 'src/components/ContactForm.tsx';
+      case 'resume.pdf':
+        return 'resume.pdf';
       default:
         return fileName;
     }

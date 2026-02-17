@@ -9,6 +9,7 @@ import ProjectsContent from './content/ProjectsContent';
 import StackContent from './content/StackContent';
 import ContactContent from './content/ContactContent';
 import AboutMeContent from './content/AboutMeContent';
+import ResumeContent from './content/ResumeContent';
 import { useSettings } from '@/contexts/SettingsContext';
 
 interface EditorContentProps {
@@ -27,6 +28,8 @@ const getLineCount = (file: string): number => {
       return 50;
     case 'AboutMe.ts':
       return 65;
+    case 'resume.pdf':
+      return 40;
     default:
       return 30;
   }
@@ -44,6 +47,8 @@ const getContent = (file: string) => {
       return <TypingReveal fileKey="ContactForm.tsx"><ContactContent /></TypingReveal>;
     case 'AboutMe.ts':
       return <TypingReveal fileKey="AboutMe.ts"><AboutMeContent /></TypingReveal>;
+    case 'resume.pdf':
+      return <ResumeContent />;
     default:
       return (
         <div className="text-muted-foreground italic">

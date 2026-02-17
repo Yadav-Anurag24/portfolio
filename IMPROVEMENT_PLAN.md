@@ -275,10 +275,29 @@ VS Code shows notifications in the bottom-right. Use this pattern for:
 - Tracked via `sessionStorage` with prefix `portfolio-typed-{fileName}` — only animates on first view per session, subsequent visits render instantly (zero overhead — early return with no wrapper div)
 - Wrapped all 5 content components in `EditorContent.tsx`: README.md, Projects.jsx, skills.json, ContactForm.tsx, AboutMe.ts
 
-### 15. Interactive Resume as a `.pdf` Preview Tab
+### 15. ~~Interactive Resume as a `.pdf` Preview Tab~~ ✅ DONE
 
-- [ ] Add a `resume.pdf` file in the explorer
-- [ ] When clicked, show a VS Code-style PDF preview tab with actual resume rendered, plus a download button
+- [x] Add a `resume.pdf` file in the explorer
+- [x] When clicked, show a VS Code-style PDF preview tab with actual resume rendered, plus a download button
+
+**What was done:**
+- Created `ResumeContent.tsx` — a VS Code-style PDF preview rendering the full resume as an interactive styled document
+- **Toolbar** at top with "Preview" badge, "Open" external link (opens real PDF in new tab), and "Download" button (triggers `Anurag_Kumar_Resume.pdf` download from `/public/`)
+- **Resume document** styled as a paper-like card with:
+  - Header with name, title, contact info (email, GitHub, LinkedIn, location) with clickable links
+  - Summary section
+  - Technical Skills grid (Languages, Frontend, Backend, Databases, DevOps, Tools)
+  - Projects section (Smart Parking Finder, HPCL Dealer App, Bookstore Auth System) with tech stacks and bullet points
+  - Education section with Cloud Computing specialization
+  - Certifications & Learning section (AWS SA, System Design, Cloud Computing)
+  - Footer with generation date
+- **File Explorer** — added `resume.pdf` entry at root level with red `FileType` icon
+- **Editor Tabs** — added `pdf` extension icon support (red `FileType`)
+- **Breadcrumbs** — added `resume.pdf` path mapping
+- **Command Palette** — added `resume.pdf` to file search, added "Open Resume Preview" command, changed "Download Resume (PDF)" to actually trigger file download
+- **EditorContent** — added `resume.pdf` case (no TypingReveal wrapper — renders immediately)
+- **CodeEditorLayout** — added `resume.pdf` path mapping
+- Theme-aware — all colors use CSS custom properties, works across all 5 themes
 
 ---
 

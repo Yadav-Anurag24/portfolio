@@ -16,6 +16,8 @@ const getFilePath = (fileName: string): string[] => {
       return ['PORTFOLIO-MASTER', 'src', 'components', 'Projects.jsx'];
     case 'ContactForm.tsx':
       return ['PORTFOLIO-MASTER', 'src', 'components', 'ContactForm.tsx'];
+    case 'resume.pdf':
+      return ['PORTFOLIO-MASTER', 'resume.pdf'];
     default:
       return ['PORTFOLIO-MASTER', fileName];
   }

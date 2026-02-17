@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, FileText, FileJson, FileCode, File, ArrowRight, Command } from 'lucide-react';
+import { Search, FileText, FileJson, FileCode, File, FileType, ArrowRight, Command } from 'lucide-react';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
 import { VisuallyHidden } from '@radix-ui/react-visually-hidden';
 
@@ -19,6 +19,7 @@ const files = [
   { name: 'skills.json', path: 'PORTFOLIO-MASTER/src/skills.json', icon: FileJson, color: 'text-syntax-variable' },
   { name: 'Projects.jsx', path: 'PORTFOLIO-MASTER/src/components/Projects.jsx', icon: FileCode, color: 'text-syntax-function' },
   { name: 'ContactForm.tsx', path: 'PORTFOLIO-MASTER/src/components/ContactForm.tsx', icon: FileCode, color: 'text-syntax-property' },
+  { name: 'resume.pdf', path: 'PORTFOLIO-MASTER/resume.pdf', icon: FileType, color: 'text-red-400' },
 ];
 
 const commands = [
@@ -26,7 +27,8 @@ const commands = [
   { name: 'Toggle Terminal', shortcut: 'Ctrl+`', action: 'terminal' },
   { name: 'Toggle Sidebar', shortcut: 'Ctrl+B', action: 'sidebar' },
   { name: 'Open Settings', shortcut: 'Ctrl+,', action: 'settings' },
-  { name: 'Download Resume', shortcut: '', action: 'resume' },
+  { name: 'Open Resume Preview', shortcut: '', action: 'view-resume' },
+  { name: 'Download Resume (PDF)', shortcut: '', action: 'resume' },
 ];
 
 const CommandPalette = ({ isOpen, onClose, onSelectFile, onToggleTerminal, onToggleSidebar, onOpenSettings }: CommandPaletteProps) => {
@@ -80,8 +82,14 @@ const CommandPalette = ({ isOpen, onClose, onSelectFile, onToggleTerminal, onTog
           onOpenSettings?.();
           onClose();
         } else if (command.action === 'resume') {
-          // Download resume — opens resume link or triggers download
-          window.open('https://github.com/Yadav-Anurag24', '_blank');
+          // Download resume PDF
+          const link = document.createElement('a');
+          link.href = '/Anurag_Kumar_Resume.pdf';
+          link.download = 'Anurag_Kumar_Resume.pdf';
+          link.click();
+          onClose();
+        } else if (command.action === 'view-resume') {
+          onSelectFile('resume.pdf');
           onClose();
         } else {
           onClose();

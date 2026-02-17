@@ -1,4 +1,4 @@
-import { X, FileText, FileJson, FileCode, File } from 'lucide-react';
+import { X, FileText, FileJson, FileCode, File, FileType } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface EditorTabsProps {
@@ -21,6 +21,8 @@ const getFileIcon = (fileName: string) => {
     case 'ts':
     case 'tsx':
       return <FileCode className="w-4 h-4 text-syntax-property" />;
+    case 'pdf':
+      return <FileType className="w-4 h-4 text-red-400" />;
     case 'env':
       return <File className="w-4 h-4 text-syntax-string" />;
     default:
