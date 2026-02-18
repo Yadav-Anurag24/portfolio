@@ -303,9 +303,21 @@ VS Code shows notifications in the bottom-right. Use this pattern for:
 
 ## PART C — Performance & Technical Excellence
 
-### 16. Lazy Load Content Components
+### 16. ~~Lazy Load Content Components~~ ✅ DONE
 
-- [ ] Wrap each content component (`AboutMeContent`, `ProjectsContent`, etc.) in `React.lazy()` + `Suspense` with a code-loading skeleton animation
+- [x] Wrap each content component (`AboutMeContent`, `ProjectsContent`, etc.) in `React.lazy()` + `Suspense` with a code-loading skeleton animation
+
+**What was done:**
+- Converted all 6 content components to `React.lazy()` dynamic imports in `EditorContent.tsx`:
+  - `ReadmeContent`, `ProjectsContent`, `StackContent`, `ContactContent`, `AboutMeContent`, `ResumeContent`
+- Created `CodeLoadingSkeleton.tsx` — a VS Code–style code-loading skeleton used as the `Suspense` fallback:
+  - 20 skeleton code lines with staggered fade-in animation, each with a line number gutter
+  - Skeleton tokens use actual theme syntax colors (`--syntax-keyword`, `--syntax-string`, `--syntax-property`, `--syntax-comment`, `--syntax-variable`) at low opacity to mimic real code structure
+  - Animated progress bar at the bottom with "Loading…" label
+  - Blank lines interspersed to simulate real code formatting
+- Wrapped content area in `<Suspense fallback={<CodeLoadingSkeleton />}>` in `EditorContent.tsx`
+- **Build result:** Each content component is now a separate chunk. Main bundle reduced from **573 KB → 525 KB** (−48 KB). 6 lazy chunks total (~52 KB combined, loaded on demand)
+- Initial page load only fetches the active file's content, other files load on navigation
 
 ### 17. Add Error Boundaries
 
