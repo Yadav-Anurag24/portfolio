@@ -321,7 +321,18 @@ VS Code shows notifications in the bottom-right. Use this pattern for:
 
 ### 17. Add Error Boundaries
 
-- [ ] Wrap content sections in error boundaries with a VS Code-styled error page (mimicking the "Something went wrong" screen)
+- [x] Wrap content sections in error boundaries with a VS Code-styled error page (mimicking the "Something went wrong" screen)
+
+**What was done:**
+- Created `EditorErrorBoundary.tsx` — a React class component (required for `getDerivedStateFromError`) styled as VS Code's "Something went wrong" crash screen:
+  - Red `AlertCircle` icon in a tinted circle
+  - Error title and file name badge showing which file failed
+  - Error message box with `Terminal`-style header, "Copy" button, and collapsible stack trace
+  - Two action buttons: "Reload File" (resets boundary state) and "Reload Window" (full page reload)
+  - Footer hint with console shortcut key
+  - Fully themed using CSS custom properties — adapts to all 5 themes
+- Wired into `EditorContent.tsx` — wraps the `<Suspense>` + `<AnimatePresence>` block per file (`key={activeFile}` so switching files resets the boundary)
+- Build verified: 0 TS errors, production build passes (530 KB main / 165 KB gzip)
 
 ### 18. Preload Fonts Properly
 

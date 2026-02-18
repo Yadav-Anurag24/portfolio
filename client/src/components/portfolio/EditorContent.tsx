@@ -4,6 +4,7 @@ import LineNumbers from './LineNumbers';
 import Minimap from './Minimap';
 import TypingReveal from './TypingReveal';
 import CodeLoadingSkeleton from './CodeLoadingSkeleton';
+import EditorErrorBoundary from './EditorErrorBoundary';
 import { PeekProvider } from './PeekDefinition';
 import { useSettings } from '@/contexts/SettingsContext';
 
@@ -79,19 +80,21 @@ const EditorContent = ({ activeFile }: EditorContentProps) => {
           className="flex-1 p-4 overflow-y-auto font-mono"
           style={{ fontSize: `${settings.fontSize}px` }}
         >
-          <Suspense fallback={<CodeLoadingSkeleton />}>
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activeFile}
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.15 }}
-              >
-                {getContent(activeFile)}
-              </motion.div>
-            </AnimatePresence>
-          </Suspense>
+          <EditorErrorBoundary key={activeFile} fileName={activeFile}>
+            <Suspense fallback={<CodeLoadingSkeleton />}>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeFile}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.15 }}
+                >
+                  {getContent(activeFile)}
+                </motion.div>
+              </AnimatePresence>
+            </Suspense>
+          </EditorErrorBoundary>
         </div>
 
         {/* Minimap */}
