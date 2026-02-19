@@ -1,18 +1,44 @@
 const Contact = require('../models/contactModel');
 const nodemailer = require('nodemailer');
 
+// ─── Helpers ─────────────────────────────────────────────────
+
+/** Strip HTML tags and trim whitespace to prevent XSS / injection */
+const sanitizeString = (str) => {
+    if (typeof str !== 'string') return '';
+    return str
+        .replace(/<[^>]*>/g, '')   // strip HTML tags
+        .replace(/[<>]/g, '')      // remove stray angle brackets
+        .trim();
+};
+
+/** Basic email format check */
+const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
 // @desc    Handle contact form submission
 // @route   POST /api/contact
 // @access  Public
 const submitContact = async (req, res) => {
     console.log("-----------------------------------");
-    console.log("📨 Incoming Contact Request:", req.body);
+    console.log("📨 Incoming Contact Request");
 
-    const { name, email, subject, message } = req.body;
+    // Sanitize all inputs
+    const name    = sanitizeString(req.body.name);
+    const email   = sanitizeString(req.body.email);
+    const subject = sanitizeString(req.body.subject);
+    const message = sanitizeString(req.body.message);
 
     // 1. Validation
     if (!name || !email || !message) {
         return res.status(400).json({ success: false, message: 'Please fill in all fields' });
+    }
+
+    if (name.length > 100 || email.length > 254 || subject.length > 200 || message.length > 5000) {
+        return res.status(400).json({ success: false, message: 'Input exceeds maximum allowed length.' });
+    }
+
+    if (!isValidEmail(email)) {
+        return res.status(400).json({ success: false, message: 'Please provide a valid email address.' });
     }
 
     try {

@@ -336,21 +336,41 @@ VS Code shows notifications in the bottom-right. Use this pattern for:
 
 ### 18. Preload Fonts Properly
 
-- [ ] Move Google Font from CSS `@import` in `index.css` to `<link rel="preconnect">` + `<link rel="preload">` in HTML with `font-display: swap`
+- [x] Move Google Font from CSS `@import` in `index.css` to `<link rel="preconnect">` + `<link rel="preload">` in HTML with `font-display: swap`
+
+**What was done:**
+- Font loading was already migrated from CSS `@import` to HTML `<link>` tags during Part A fixes. This pass optimized the setup further:
+  - **Trimmed unused font weights:** Removed weight 300 (light) — not used anywhere in the codebase. Reduced Fira Code from 5 weights (300–700) to 2 (400, 500) since bold/semibold are never applied to monospace elements. Reduced Inter from 5 to 4 weights (400, 500, 600, 700). Total: **10 font files → 6 font files** (~40% fewer network requests)
+  - **Added `crossorigin` attribute** to the `<link rel="preload">` tag (required for CORS font resources to avoid double-fetching)
+  - Kept the non-blocking `media="print" onload="this.media='all'"` swap pattern with `<noscript>` fallback
+  - `display=swap` in Google Fonts URL ensures text is visible immediately with system fallback while fonts load
 
 ### 19. Add PWA Support
 
-- [ ] Add a `manifest.json` and a service worker so the portfolio can be "installed" as a desktop app
-- [ ] When installed, it would literally look like VS Code opening — incredible for the theme
+- [ ] _(Skipped — will revisit if needed)_
 
 ### 20. Server Security Hardening
 
-- [ ] Add `helmet.js` for security headers
-- [ ] Add `express-rate-limit` on `/api/contact` (prevent spam)
-- [ ] Restrict CORS to actual frontend domain
-- [ ] Sanitize contact form inputs (prevent XSS/injection)
-- [ ] Add `.env.example` documenting required environment variables
-- [ ] Move `mongoose` and `dotenv` from root `package.json` to `server/package.json`
+- [x] Add `helmet.js` for security headers
+- [x] Add `express-rate-limit` on `/api/contact` (prevent spam)
+- [x] Restrict CORS to actual frontend domain
+- [x] Sanitize contact form inputs (prevent XSS/injection)
+- [x] Add `.env.example` documenting required environment variables
+- [x] Move `mongoose` and `dotenv` from root `package.json` to `server/package.json`
+
+**What was done:**
+- **`helmet.js`** — added as first middleware; sets 15+ secure HTTP headers (X-Content-Type-Options, Strict-Transport-Security, X-Frame-Options, etc.)
+- **`express-rate-limit`** — two tiers:
+  - Global: 200 requests / 15 min window (generous for portfolio browsing)
+  - Contact endpoint: 5 submissions / hour per IP (strict anti-spam)
+- **CORS restriction** — `cors({ origin })` with allowlist from `CORS_ORIGINS` env var (defaults to Vite dev/preview ports). Only `GET` and `POST` methods allowed.
+- **`express-mongo-sanitize`** — strips `$` and `.` operators from user input to prevent NoSQL injection attacks
+- **Input sanitization in `contactController.js`** — `sanitizeString()` strips HTML tags and angle brackets; email format validation via regex; length limits enforced (name: 100, email: 254, subject: 200, message: 5000)
+- **Mongoose schema hardened** — `maxlength` and `trim` constraints added to all Contact model fields
+- **Body parser limits** — `express.json({ limit: '16kb' })` prevents oversized payloads
+- **`.env.example`** — created at `server/.env.example` documenting all 5 environment variables: `MONGO_URI`, `PORT`, `CORS_ORIGINS`, `EMAIL_USER`/`EMAIL_PASS`, `GITHUB_TOKEN`
+- **Dependencies already in correct location** — `mongoose` and `dotenv` were already in `server/package.json` (moved during Part A #3 bundle cleanup)
+- All 3 modified files pass syntax check; client build unaffected
 
 ---
 
