@@ -378,9 +378,19 @@ VS Code shows notifications in the bottom-right. Use this pattern for:
 
 ### 21. Accessibility (a11y)
 
-- [ ] Add `role="button"`, `tabIndex`, and `onKeyDown` to all interactive `<div>` elements
-- [ ] Add proper ARIA labels to Activity Bar, File Explorer, and Tab bar
-- [ ] Implement focus management when switching tabs or opening Command Palette
+- [x] Add `role="button"`, `tabIndex`, and `onKeyDown` to all interactive `<div>` elements
+- [x] Add proper ARIA labels to Activity Bar, File Explorer, and Tab bar
+- [x] Implement focus management when switching tabs or opening Command Palette
+
+**What was done:**
+- **ActivityBar** — converted outer `<div>` to `<nav aria-label="Activity Bar">`, added `role="toolbar" aria-orientation="vertical"` to icon group, added `aria-label` and `aria-pressed` to all 5 panel buttons
+- **FileExplorer** — added `role="tree" aria-label="File explorer"` to tree container; folder items now have `role="treeitem"`, `tabIndex={0}`, `aria-expanded`, `aria-label`, and `onKeyDown` (Enter/Space); file items now have `role="treeitem"`, `tabIndex={0}`, `aria-selected`, `aria-label`, and `onKeyDown`
+- **EditorTabs** — added `role="tablist" aria-label="Open editors"` to tab container; each tab now has `role="tab"`, `aria-selected`, `aria-label`, `tabIndex` (0 for active, -1 for inactive), and `onKeyDown`; close buttons have `aria-label="Close {filename}"`
+- **StatusBar** — changed outer `<div>` to `<footer role="status" aria-label="Editor status bar">`; git branch, errors, warnings get descriptive `aria-label`; status text items get `aria-label`; social links use `aria-label` instead of `title`; decorative icons get `aria-hidden="true"`
+- **Breadcrumbs** — changed outer `<div>` to `<nav aria-label="Breadcrumb">`; last breadcrumb segment gets `aria-current="page"`; chevron separators get `aria-hidden="true"`
+- **CommandPalette** — search input gets `aria-label`, `role="combobox"`, `aria-expanded`, `aria-controls`, `aria-activedescendant`; results container gets `id` and `role="listbox"`
+- **CodeEditorLayout** — added "Skip to editor content" link (`sr-only` visible on focus); main editor area gets `id="editor-content"` and `aria-label="Editor: {activeFile}"`
+- Build verified: 0 TS errors, production build passes (532 KB main / 166 KB gzip)
 
 ### 22. Custom 404 Page in VS Code Style
 
@@ -395,12 +405,28 @@ VS Code shows notifications in the bottom-right. Use this pattern for:
 
 Expand the Command Palette significantly:
 
-- [ ] "Change Theme" → Opens theme picker
-- [ ] "Open File: Resume.pdf" → Opens resume tab
-- [ ] "Run: Download Resume" → Downloads PDF
-- [ ] "Git: View Contributions" → Shows GitHub activity
-- [ ] "Terminal: Clear" → Clears terminal
-- [ ] "View: Toggle Minimap"
+- [x] "Change Theme" → Opens theme picker
+- [x] "Open File: Resume.pdf" → Opens resume tab
+- [x] "Run: Download Resume" → Downloads PDF
+- [x] "Git: View Contributions" → Shows GitHub activity
+- [x] "Terminal: Clear" → Clears terminal
+- [x] "View: Toggle Minimap"
+
+**What was done:**
+- Expanded from **6 commands → 17 commands** organized into 6 categories: File, View, Preferences, Git, Terminal, Run
+- Each command now has its own **category label** and **contextual icon** (Lucide) instead of generic ArrowRight
+- New commands added:
+  - **File:** Open README.md, Open Projects.jsx, Open ContactForm.tsx (quick file access)
+  - **View:** Toggle Minimap, Toggle Line Numbers, Explorer Panel, Extensions Panel
+  - **Preferences:** Change Theme (opens Settings panel)
+  - **Git:** View Contributions (opens Git Activity panel)
+  - **Terminal:** Clear (clears terminal logs), New Terminal
+  - **Run:** Download Resume (PDF)
+- Category headers appear as VS Code-style uppercase section dividers
+- "Recently Opened" section only shown when no search query (cleaner UX)
+- Wired 5 new callback props into `CodeEditorLayout`: `onOpenPanel`, `onClearTerminal`, `onToggleMinimap`, `onToggleLineNumbers`, `onChangeTheme`
+- All items searchable by name — typing "minimap" finds "View: Toggle Minimap", "git" finds "Git: View Contributions", etc.
+- Build verified: 0 TS errors, production build passes (535 KB main / 167 KB gzip)
 
 ### 25. Multi-cursor / Selection Easter Egg
 

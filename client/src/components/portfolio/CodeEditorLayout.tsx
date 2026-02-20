@@ -15,7 +15,7 @@ import SearchPanel from './SearchPanel';
 import SettingsPanel from './SettingsPanel';
 import { TerminalProvider, useTerminal } from '@/contexts/TerminalContext';
 import { NavigationProvider, useNavigation } from '@/contexts/NavigationContext';
-import { SettingsProvider } from '@/contexts/SettingsContext';
+import { SettingsProvider, useSettings } from '@/contexts/SettingsContext';
 import { NotificationProvider, useWelcomeNotification } from '@/contexts/NotificationContext';
 
 const CodeEditorLayoutInner = () => {
@@ -27,8 +27,9 @@ const CodeEditorLayoutInner = () => {
   const [isTerminalMaximized, setIsTerminalMaximized] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   
-  const { addLog } = useTerminal();
+  const { addLog, clearLogs } = useTerminal();
   const { registerHandlers } = useNavigation();
+  const { settings, updateSetting } = useSettings();
 
   // Show welcome notifications on first visit
   useWelcomeNotification();
@@ -123,6 +124,14 @@ const CodeEditorLayoutInner = () => {
 
   return (
     <div className="flex flex-col h-screen w-full overflow-hidden bg-background">
+      {/* Skip to content link for keyboard/screen-reader users */}
+      <a
+        href="#editor-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[200] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded focus:text-sm"
+      >
+        Skip to editor content
+      </a>
+
       {/* Mobile Header */}
       <MobileHeader
         isSidebarOpen={isSidebarOpen}
@@ -200,7 +209,7 @@ const CodeEditorLayoutInner = () => {
         </AnimatePresence>
 
         {/* Main Editor Area */}
-        <main className="flex flex-1 flex-col overflow-hidden bg-card">
+        <main id="editor-content" className="flex flex-1 flex-col overflow-hidden bg-card" aria-label={`Editor: ${activeFile}`}>
           {/* Editor Tabs - Desktop */}
           <div className="hidden md:block">
             <EditorTabs
@@ -240,6 +249,11 @@ const CodeEditorLayoutInner = () => {
         onToggleTerminal={() => setIsTerminalOpen((prev) => !prev)}
         onToggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
         onOpenSettings={() => setActivePanel((prev) => prev === 'settings' ? '' : 'settings')}
+        onOpenPanel={(panel) => setActivePanel((prev) => prev === panel ? '' : panel)}
+        onClearTerminal={() => { clearLogs(); addLog('info', '> Terminal cleared'); }}
+        onToggleMinimap={() => updateSetting('showMinimap', !settings.showMinimap)}
+        onToggleLineNumbers={() => updateSetting('showLineNumbers', !settings.showLineNumbers)}
+        onChangeTheme={() => setActivePanel((prev) => prev === 'settings' ? '' : 'settings')}
       />
     </div>
   );

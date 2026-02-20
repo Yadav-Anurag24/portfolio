@@ -87,6 +87,11 @@ const FileTreeItem = ({
           className="file-item flex items-center gap-1.5 text-sm select-none"
           style={{ paddingLeft: `${depth * 12 + 8}px` }}
           onClick={() => setIsOpen(!isOpen)}
+          onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setIsOpen(!isOpen); } }}
+          role="treeitem"
+          tabIndex={0}
+          aria-expanded={isOpen}
+          aria-label={`${item.name} folder${isOpen ? ', expanded' : ', collapsed'}`}
         >
           {isOpen ? (
             <ChevronDown className="w-4 h-4 text-muted-foreground" />
@@ -134,6 +139,11 @@ const FileTreeItem = ({
       }`}
       style={{ paddingLeft: `${depth * 12 + 24}px` }}
       onClick={() => onFileSelect(item.name)}
+      onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onFileSelect(item.name); } }}
+      role="treeitem"
+      tabIndex={0}
+      aria-selected={isActive}
+      aria-label={`${item.name} file`}
     >
       {getFileIcon(item.extension, item.name)}
       <span className={isActive ? 'text-primary' : 'text-foreground'}>{item.name}</span>
@@ -150,7 +160,7 @@ const FileExplorer = ({ activeFile, onFileSelect }: FileExplorerProps) => {
       </div>
 
       {/* File Tree */}
-      <div className="flex-1 py-2 overflow-y-auto">
+      <div className="flex-1 py-2 overflow-y-auto" role="tree" aria-label="File explorer">
         {fileStructure.map((item) => (
           <FileTreeItem
             key={item.name}

@@ -32,7 +32,7 @@ const getFileIcon = (fileName: string) => {
 
 const EditorTabs = ({ openTabs, activeTab, onTabSelect, onTabClose }: EditorTabsProps) => {
   return (
-    <div className="h-9 bg-tab-inactive border-b border-tab-border flex items-center overflow-x-auto">
+    <div className="h-9 bg-tab-inactive border-b border-tab-border flex items-center overflow-x-auto" role="tablist" aria-label="Open editors">
       <AnimatePresence initial={false}>
         {openTabs.map((tab) => (
           <motion.div
@@ -47,6 +47,11 @@ const EditorTabs = ({ openTabs, activeTab, onTabSelect, onTabClose }: EditorTabs
                 : 'text-muted-foreground hover:text-foreground'
             }`}
             onClick={() => onTabSelect(tab)}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onTabSelect(tab); } }}
+            role="tab"
+            tabIndex={activeTab === tab ? 0 : -1}
+            aria-selected={activeTab === tab}
+            aria-label={tab}
           >
             {getFileIcon(tab)}
             <span className="truncate max-w-[120px]">{tab}</span>
@@ -56,6 +61,7 @@ const EditorTabs = ({ openTabs, activeTab, onTabSelect, onTabClose }: EditorTabs
                 onTabClose(tab);
               }}
               className="ml-1 p-0.5 rounded hover:bg-muted opacity-0 group-hover:opacity-100 transition-opacity"
+              aria-label={`Close ${tab}`}
             >
               <X className="w-3 h-3" />
             </button>

@@ -15,14 +15,16 @@ const activities = [
 
 const ActivityBar = ({ activePanel, onPanelChange }: ActivityBarProps) => {
   return (
-    <div className="w-12 bg-[hsl(220,13%,10%)] flex flex-col items-center py-2 border-r border-border">
+    <nav className="w-12 bg-[hsl(220,13%,10%)] flex flex-col items-center py-2 border-r border-border" aria-label="Activity Bar">
       {/* Top icons */}
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1" role="toolbar" aria-label="View controls" aria-orientation="vertical">
         {activities.map((activity) => (
           <Tooltip key={activity.id} delayDuration={300}>
             <TooltipTrigger asChild>
               <button
                 onClick={() => onPanelChange(activity.id)}
+                aria-label={activity.label}
+                aria-pressed={activePanel === activity.id}
                 className={`w-12 h-12 flex items-center justify-center relative transition-colors
                   ${activePanel === activity.id 
                     ? 'text-foreground' 
@@ -51,6 +53,8 @@ const ActivityBar = ({ activePanel, onPanelChange }: ActivityBarProps) => {
         <TooltipTrigger asChild>
           <button
             onClick={() => onPanelChange('settings')}
+            aria-label="Settings"
+            aria-pressed={activePanel === 'settings'}
             className={`w-12 h-12 flex items-center justify-center relative transition-colors
               ${activePanel === 'settings'
                 ? 'text-foreground'
@@ -68,7 +72,7 @@ const ActivityBar = ({ activePanel, onPanelChange }: ActivityBarProps) => {
           <span className="text-muted-foreground text-xs">Ctrl+,</span>
         </TooltipContent>
       </Tooltip>
-    </div>
+    </nav>
   );
 };
 

@@ -27,18 +27,18 @@ const Breadcrumbs = ({ filePath }: BreadcrumbsProps) => {
   const parts = getFilePath(filePath);
 
   return (
-    <div className="h-6 px-3 flex items-center gap-1 text-xs text-muted-foreground bg-card border-b border-border overflow-x-auto">
+    <nav className="h-6 px-3 flex items-center gap-1 text-xs text-muted-foreground bg-card border-b border-border overflow-x-auto" aria-label="Breadcrumb">
       {parts.map((part, index) => (
         <span key={index} className="flex items-center gap-1 whitespace-nowrap">
-          <span className="hover:text-foreground cursor-pointer transition-colors">
+          <span className="hover:text-foreground cursor-pointer transition-colors" aria-current={index === parts.length - 1 ? 'page' : undefined}>
             {part}
           </span>
           {index < parts.length - 1 && (
-            <ChevronRight className="w-3 h-3" />
+            <ChevronRight className="w-3 h-3" aria-hidden="true" />
           )}
         </span>
       ))}
-    </div>
+    </nav>
   );
 };
 
