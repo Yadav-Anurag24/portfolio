@@ -2,6 +2,7 @@ import { useRef, lazy, Suspense } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import LineNumbers from './LineNumbers';
 import Minimap from './Minimap';
+import ProfileWidget from './ProfileWidget';
 import TypingReveal from './TypingReveal';
 import CodeLoadingSkeleton from './CodeLoadingSkeleton';
 import EditorErrorBoundary from './EditorErrorBoundary';
@@ -101,6 +102,9 @@ const EditorContent = ({ activeFile }: EditorContentProps) => {
         {settings.showMinimap && (
           <Minimap activeFile={activeFile} scrollContainerRef={scrollRef} />
         )}
+
+        {/* Profile Widget — right sidebar */}
+        <ProfileWidget />
       </div>
     </PeekProvider>
   );

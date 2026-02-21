@@ -2,9 +2,8 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const mongoSanitize = require('express-mongo-sanitize');
 const dotenv = require('dotenv');
-const connectDB = require('./config/db'); // Import the DB logic
+const { connectDB } = require('./config/db'); // Import the DB logic
 
 // 1. Load Environment Variables
 // We force it to look in the current folder
@@ -12,9 +11,9 @@ dotenv.config();
 
 console.log("-----------------------------------");
 console.log("1. Server Starting...");
-console.log("2. Checking Mongo URI:", process.env.MONGO_URI ? "FOUND ✅" : "MISSING ❌");
+console.log("2. Checking Mongo URI:", process.env.MONGO_URI ? "FOUND ✅" : "MISSING (using static data) ⚠️");
 
-// 2. Connect to Database (This was likely missing or failing silently)
+// 2. Connect to Database (gracefully falls back to static data if unavailable)
 connectDB(); 
 
 const app = express();
@@ -45,9 +44,6 @@ app.use(cors({
 // Body parsers with size limits
 app.use(express.json({ limit: '16kb' }));
 app.use(express.urlencoded({ extended: false, limit: '16kb' }));
-
-// Mongo sanitize — strip $ and . from req.body/query/params to prevent NoSQL injection
-app.use(mongoSanitize());
 
 // ─── Rate Limiting ───────────────────────────────────────────
 
