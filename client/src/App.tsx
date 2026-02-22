@@ -2,9 +2,11 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
+import MobileWarningModal from "./components/portfolio/MobileWarningModal";
 
 const App = () => (
   <TooltipProvider>
+    <MobileWarningModal />
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Index />} />
