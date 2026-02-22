@@ -80,12 +80,12 @@ const ResumeContent = () => {
         >
           <h1 className="text-2xl font-bold text-foreground tracking-tight">Anurag Kumar</h1>
           <p className="text-sm mt-1" style={{ color: 'var(--primary)' }}>
-            Backend Developer | Full Stack Engineer
+            Full Stack Developer
           </p>
           <div className="flex flex-wrap gap-x-4 gap-y-1 mt-3 text-xs text-muted-foreground">
             <span className="flex items-center gap-1">
               <Mail className="w-3 h-3" />
-              anuragkumar@email.com
+              msdanurag65@gmail.com
             </span>
             <a
               href="https://github.com/Yadav-Anurag24"
@@ -118,53 +118,68 @@ const ResumeContent = () => {
           {/* Summary */}
           <Section icon={<Globe className="w-3.5 h-3.5" />} title="Summary">
             <p className="text-xs text-muted-foreground leading-relaxed">
-              Aspiring Backend Developer and Final Year CS student with hands-on experience building
-              scalable REST APIs, mobile applications, and full-stack systems. Passionate about
-              cloud architecture, system design, and DevOps. Pursuing AWS Solutions Architect
-              certification.
+              Full Stack Developer with hands-on freelance experience building production e-commerce
+              platforms, full-stack CMS applications, and mobile apps. Proficient in Next.js, React,
+              Angular, Node.js, and AWS cloud deployment. 4-Star HackerRank (C++) with 100+ LeetCode
+              problems solved.
             </p>
           </Section>
 
           {/* Skills */}
           <Section icon={<Code2 className="w-3.5 h-3.5" />} title="Technical Skills">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-              <SkillGroup label="Languages" skills={['TypeScript', 'JavaScript', 'Python', 'Java']} />
-              <SkillGroup label="Frontend" skills={['React', 'React Native', 'Angular', 'Ionic']} />
-              <SkillGroup label="Backend" skills={['Node.js', 'Express', 'NestJS']} />
-              <SkillGroup label="Databases" skills={['MongoDB', 'PostgreSQL', 'Redis']} />
-              <SkillGroup label="DevOps" skills={['Docker', 'Kubernetes', 'AWS', 'Git']} />
-              <SkillGroup label="Tools" skills={['VS Code', 'Postman', 'GitHub Actions']} />
+              <SkillGroup label="Languages" skills={['C++', 'Python', 'JavaScript', 'TypeScript']} />
+              <SkillGroup label="Frontend" skills={['React', 'Angular', 'Next.js', 'HTML5', 'CSS', 'Bootstrap']} />
+              <SkillGroup label="Backend" skills={['Node.js', 'Express.js', 'EJS', 'Mongoose']} />
+              <SkillGroup label="Databases" skills={['MongoDB', 'PostgreSQL']} />
+              <SkillGroup label="Cloud & Deploy" skills={['AWS Amplify', 'AWS Elastic Beanstalk', 'Git', 'GitHub']} />
+              <SkillGroup label="Tools" skills={['VS Code', 'Postman', 'Arduino', 'Android Studio']} />
             </div>
           </Section>
 
-          {/* Experience / Projects */}
-          <Section icon={<Briefcase className="w-3.5 h-3.5" />} title="Projects">
+          {/* Experience */}
+          <Section icon={<Briefcase className="w-3.5 h-3.5" />} title="Experience">
             <div className="space-y-3">
               <ProjectEntry
-                name="Smart Parking Finder"
-                tech="React, Node.js, Express, MongoDB"
+                name="Full Stack Developer — BuyLawBooks (Freelance)"
+                tech="Next.js, Express.js, Node.js, PostgreSQL, AWS, Postman, Git"
                 bullets={[
-                  'Built a full-stack parking discovery app with real-time availability',
-                  'Designed RESTful API with Express and MongoDB Atlas',
-                  'Implemented geolocation-based search and filtering',
+                  'Engineered a multi-role authentication system using Firebase Auth with secure login/signup flows',
+                  'Conducted rigorous end-to-end API testing using Postman for Cart, Order, Reviews, and Wishlist modules',
+                  'Developed a high-performance storefront using Next.js and deployed via AWS Amplify with CI/CD pipelines',
+                ]}
+              />
+            </div>
+          </Section>
+
+          {/* Projects */}
+          <Section icon={<Code2 className="w-3.5 h-3.5" />} title="Projects">
+            <div className="space-y-3">
+              <ProjectEntry
+                name="Parking Finder System App"
+                tech="Ionic, Angular, TypeScript, Google Maps API"
+                bullets={[
+                  'Engineered a secure, map-centric mobile app with Google Maps API and Angular Auth Guard',
+                  'Developed complete booking and profile management system with localStorage persistence',
+                  'Implemented modern UI with custom theming and slide-to-delete booking management',
                 ]}
               />
               <ProjectEntry
-                name="HPCL Dealer Management App"
-                tech="React Native, Ionic, Angular, Node.js"
+                name="StudyLeaf Note-Taking CMS"
+                tech="Node.js, Express.js, MongoDB, EJS, Mongoose"
                 bullets={[
-                  'Developed cross-platform mobile app for HPCL dealer operations',
-                  'Built secure authentication with JWT and role-based access',
-                  'Integrated native device APIs via Capacitor plugins',
+                  'Engineered a full-stack database-driven CMS with secure admin authentication using express-session',
+                  'Developed complete CRUD functionality with dynamic date-based sorting and live search',
+                  'Integrated EasyMDE Markdown editor with custom toolbar and dark/light theme support',
                 ]}
               />
               <ProjectEntry
-                name="Bookstore Auth System"
-                tech="Node.js, Express, MongoDB, JWT"
+                name="CGPA Calculator Web App"
+                tech="Angular, TypeScript, Bootstrap"
                 bullets={[
-                  'Implemented complete authentication system with JWT tokens',
-                  'Designed REST API with CRUD operations and input validation',
-                  'Added rate limiting, CORS, and security best practices',
+                  'Built a responsive CGPA Calculator with modular components and routing',
+                  'Implemented real-time GPA/CGPA computation with input validation and error handling',
+                  'Designed History Page to persist past calculations using localStorage',
                 ]}
               />
             </div>
@@ -174,29 +189,43 @@ const ResumeContent = () => {
           <Section icon={<GraduationCap className="w-3.5 h-3.5" />} title="Education">
             <div className="text-xs space-y-1">
               <div className="flex items-baseline justify-between">
-                <span className="font-medium text-foreground">Bachelor's in Computer Science</span>
-                <span className="text-muted-foreground text-[10px]">Final Year</span>
+                <span className="font-medium text-foreground">Bachelor of Computer Applications (BCA)</span>
+                <span className="text-muted-foreground text-[10px]">CGPA: 8.2</span>
               </div>
               <p className="text-muted-foreground">
-                Cloud Computing Specialization (Started Jan 2026)
+                Lovely Professional University
               </p>
             </div>
           </Section>
 
           {/* Certifications */}
-          <Section icon={<Award className="w-3.5 h-3.5" />} title="Certifications & Learning">
+          <Section icon={<Award className="w-3.5 h-3.5" />} title="Certifications">
             <ul className="text-xs text-muted-foreground space-y-1">
               <li className="flex items-center gap-2">
                 <span className="w-1 h-1 rounded-full shrink-0" style={{ background: 'var(--syntax-string)' }} />
-                AWS Solutions Architect Associate — <span className="italic">in progress</span>
+                100 Days of Code: 2025 Web Development Bootcamp — Udemy (Dec 2024)
               </li>
               <li className="flex items-center gap-2">
                 <span className="w-1 h-1 rounded-full shrink-0" style={{ background: 'var(--syntax-string)' }} />
-                System Design — ongoing self-study (DDIA, System Design Primer)
+                Python Programming — NPTEL (June 2025)
+              </li>
+            </ul>
+          </Section>
+
+          {/* Achievements */}
+          <Section icon={<Award className="w-3.5 h-3.5" />} title="Achievements">
+            <ul className="text-xs text-muted-foreground space-y-1">
+              <li className="flex items-center gap-2">
+                <span className="w-1 h-1 rounded-full shrink-0" style={{ background: 'var(--syntax-string)' }} />
+                4-Star on HackerRank — Secured 4-star in C++ (Jan 2025)
               </li>
               <li className="flex items-center gap-2">
                 <span className="w-1 h-1 rounded-full shrink-0" style={{ background: 'var(--syntax-string)' }} />
-                Cloud Computing Specialization — started January 2026
+                State-Level Inter-University Hackathon — Selected among top 150 participants (Feb 2025)
+              </li>
+              <li className="flex items-center gap-2">
+                <span className="w-1 h-1 rounded-full shrink-0" style={{ background: 'var(--syntax-string)' }} />
+                LeetCode — 100+ problems solved in competitive programming (Jun 2025)
               </li>
             </ul>
           </Section>

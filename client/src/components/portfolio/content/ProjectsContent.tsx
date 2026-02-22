@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/hover-card';
-import { ExternalLink, Github, Smartphone, Car, BookOpen, Code2 } from 'lucide-react';
+import { ExternalLink, Github, Smartphone, Car, BookOpen, Code2, ShoppingCart, NotebookPen, Calculator } from 'lucide-react';
 import { useTerminal } from '@/contexts/TerminalContext';
 import { useProjectNotification } from '@/contexts/NotificationContext';
 
@@ -9,8 +9,11 @@ import { useProjectNotification } from '@/contexts/NotificationContext';
 const getProjectAssets = (id) => {
   const assets = {
     1: { icon: Car, gradient: 'from-emerald-500 to-teal-600' },
-    2: { icon: Smartphone, gradient: 'from-orange-500 to-red-600' },
-    3: { icon: BookOpen, gradient: 'from-violet-500 to-purple-600' }
+    2: { icon: ShoppingCart, gradient: 'from-amber-500 to-orange-600' },
+    3: { icon: NotebookPen, gradient: 'from-violet-500 to-purple-600' },
+    4: { icon: Calculator, gradient: 'from-cyan-500 to-blue-600' },
+    5: { icon: Smartphone, gradient: 'from-orange-500 to-red-600' },
+    6: { icon: BookOpen, gradient: 'from-rose-500 to-pink-600' }
   };
   return assets[id] || { icon: Code2, gradient: 'from-blue-500 to-cyan-600' };
 };
@@ -172,7 +175,9 @@ const ProjectsContent = () => {
           <HoverCardContent 
             side="right" 
             align="start" 
-            className="w-80 p-0 bg-card border-border overflow-hidden"
+            sideOffset={8}
+            collisionPadding={16}
+            className="w-80 max-h-[calc(100vh-2rem)] overflow-y-auto p-0 bg-card border-border"
           >
             {/* Project Card Preview */}
             <div className={`h-24 bg-gradient-to-br ${project.gradient} flex items-center justify-center`}>

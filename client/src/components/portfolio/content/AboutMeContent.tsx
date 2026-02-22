@@ -79,21 +79,21 @@ const AboutMeContent = () => {
         <span className="text-foreground">;</span>
       </div>
       <div className="leading-7 ml-4">
-        <span className="syntax-property">status</span>
+        <span className="syntax-property">university</span>
         <span className="text-foreground">: </span>
         <span className="syntax-variable">string</span>
         <span className="text-foreground">;</span>
       </div>
       <div className="leading-7 ml-4">
-        <span className="syntax-property">upcomingCourse</span>
+        <span className="syntax-property">cgpa</span>
         <span className="text-foreground">: </span>
         <span className="syntax-variable">string</span>
         <span className="text-foreground">;</span>
       </div>
       <div className="leading-7 ml-4">
-        <span className="syntax-property">startDate</span>
+        <span className="syntax-property">achievements</span>
         <span className="text-foreground">: </span>
-        <span className="syntax-variable">Date</span>
+        <span className="syntax-variable">string</span>
         <span className="text-foreground">;</span>
       </div>
       <div className="leading-7">
@@ -115,7 +115,7 @@ const AboutMeContent = () => {
       <div className="leading-7 ml-4">
         <span className="syntax-property">name</span>
         <span className="text-foreground">: </span>
-        <span className="syntax-string">"Aspiring Backend Developer"</span>
+        <span className="syntax-string">"Anurag Kumar"</span>
         <span className="text-muted-foreground">,</span>
       </div>
 
@@ -123,7 +123,7 @@ const AboutMeContent = () => {
       <div className="leading-7 ml-4">
         <span className="syntax-property">role</span>
         <span className="text-foreground">: </span>
-        <span className="syntax-string">"Full Stack Developer (Backend Focus)"</span>
+        <span className="syntax-string">"Full Stack Developer"</span>
         <span className="text-muted-foreground">,</span>
       </div>
 
@@ -131,7 +131,7 @@ const AboutMeContent = () => {
       <div className="leading-7 ml-4">
         <span className="syntax-property">status</span>
         <span className="text-foreground">: </span>
-        <span className="syntax-string">"Final Year Student | Open to Opportunities"</span>
+        <span className="syntax-string">"BCA Student at LPU | Open to Opportunities"</span>
         <span className="text-muted-foreground">,</span>
       </div>
 
@@ -142,10 +142,10 @@ const AboutMeContent = () => {
         <span className="syntax-property">interests</span>
         <span className="text-foreground">: [</span>
       </div>
-      {['Backend Development', 'Cloud Architecture', 'System Design', 'DevOps', 'API Development'].map((interest, i) => (
+      {['Full Stack Development', 'Cloud & AWS Deployment', 'Problem-Solving', 'Responsive Web Design', 'API Development', 'Competitive Programming'].map((interest, i) => (
         <div key={interest} className="leading-7 ml-8">
           <span className="syntax-string">"{interest}"</span>
-          {i < 4 && <span className="text-muted-foreground">,</span>}
+          {i < 5 && <span className="text-muted-foreground">,</span>}
         </div>
       ))}
       <div className="leading-7 ml-4">
@@ -163,29 +163,25 @@ const AboutMeContent = () => {
       <div className="leading-7 ml-8">
         <span className="syntax-property">degree</span>
         <span className="text-foreground">: </span>
-        <span className="syntax-string">"Bachelor's in Computer Science"</span>
+        <span className="syntax-string">"Bachelor of Computer Applications (BCA)"</span>
         <span className="text-muted-foreground">,</span>
       </div>
       <div className="leading-7 ml-8">
-        <span className="syntax-property">status</span>
+        <span className="syntax-property">university</span>
         <span className="text-foreground">: </span>
-        <span className="syntax-string">"Final Year"</span>
+        <span className="syntax-string">"Lovely Professional University"</span>
         <span className="text-muted-foreground">,</span>
       </div>
       <div className="leading-7 ml-8">
-        <span className="syntax-property">upcomingCourse</span>
+        <span className="syntax-property">cgpa</span>
         <span className="text-foreground">: </span>
-        <span className="syntax-string">"Cloud Computing Specialization"</span>
+        <span className="syntax-string">"8.2"</span>
         <span className="text-muted-foreground">,</span>
       </div>
       <div className="leading-7 ml-8">
-        <span className="syntax-property">startDate</span>
+        <span className="syntax-property">achievements</span>
         <span className="text-foreground">: </span>
-        <span className="syntax-keyword">new</span>
-        <span className="syntax-function"> Date</span>
-        <span className="text-foreground">(</span>
-        <span className="syntax-string">"2026-01-01"</span>
-        <span className="text-foreground">)</span>
+        <span className="syntax-string">"4-Star HackerRank (C++) | 100+ LeetCode Problems"</span>
       </div>
       <div className="leading-7 ml-4">
         <span className="text-foreground">{'}'}</span>
@@ -200,10 +196,10 @@ const AboutMeContent = () => {
         <span className="text-foreground">: [</span>
       </div>
       {[
-        'Obtain AWS Solutions Architect certification',
-        'Build scalable microservices architecture',
+        'Build production-grade full stack applications',
+        'Master cloud deployment with AWS',
         'Contribute to open source projects',
-        'Land a backend developer role',
+        'Secure a full stack developer role',
       ].map((goal, i) => (
         <div key={goal} className="leading-7 ml-8">
           <span className="syntax-string">"{goal}"</span>

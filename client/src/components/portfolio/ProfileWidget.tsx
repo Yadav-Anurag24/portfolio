@@ -56,7 +56,7 @@ const quotes = [
 ];
 
 // ─── Typing roles that cycle ─────────────────────────────────────────────────
-const roles = ["Backend Developer", "Cloud Enthusiast", "Full Stack Dev", "System Designer"];
+const roles = ["Full Stack Developer", "Cloud Enthusiast", "BCA @ LPU", "Problem Solver"];
 
 // ─── Social links ────────────────────────────────────────────────────────────
 const socials = [
@@ -80,7 +80,7 @@ const socials = [
   },
   {
     label: "Email",
-    href: "mailto:anuragkumarmsd456@gmail.com",
+    href: "mailto:msdanurag65@gmail.com",
     icon: (
       <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-current">
         <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />

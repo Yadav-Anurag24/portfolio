@@ -234,7 +234,12 @@ const ContactContent = () => {
         <div className="text-sm">
           <span className="syntax-property">EMAIL</span>
           <span className="text-foreground">=</span>
-          <a href="mailto:anuragkumarmsd456@gmail.com" className="syntax-string hover:underline">"anuragkumarmsd456@gmail.com"</a>
+          <a href="mailto:msdanurag65@gmail.com" className="syntax-string hover:underline">"msdanurag65@gmail.com"</a>
+        </div>
+        <div className="text-sm">
+          <span className="syntax-property">PHONE</span>
+          <span className="text-foreground">=</span>
+          <span className="syntax-string">"+91 7061555423"</span>
         </div>
         <div className="text-sm">
           <span className="syntax-property">GITHUB</span>

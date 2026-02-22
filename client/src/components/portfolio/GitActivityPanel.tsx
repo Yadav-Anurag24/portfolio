@@ -30,6 +30,7 @@ interface CommitEntry {
 const GITHUB_USERNAME = 'Yadav-Anurag24';
 const GITHUB_PROFILE = `https://github.com/${GITHUB_USERNAME}`;
 const SERVER_EVENTS_API = '/api/github/events';
+const SERVER_COMMITS_API = '/api/github/commits';
 const DIRECT_EVENTS_API = `https://api.github.com/users/${GITHUB_USERNAME}/events/public?per_page=100`;
 
 // ── Static Fallback Data ────────────────────────────────────────────
@@ -415,11 +416,33 @@ const ActivityFeed = ({ events }: { events: GitHubEvent[] }) => {
 // ── Main Panel ──────────────────────────────────────────────────────
 const GitActivityPanel = () => {
   const [events, setEvents] = useState<GitHubEvent[]>([]);
+  const [repoCommits, setRepoCommits] = useState<CommitEntry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [lastFetched, setLastFetched] = useState<Date | null>(null);
   const [dataSource, setDataSource] = useState<string>('');
 
+  // Fetch recent commits directly from repos (fallback when Events API has no PushEvents)
+  const fetchRepoCommits = useCallback(async () => {
+    try {
+      const res = await fetch(SERVER_COMMITS_API);
+      if (res.ok) {
+        const json = await res.json();
+        if (json.data && Array.isArray(json.data)) {
+          const mapped: CommitEntry[] = json.data.map((c: { sha: string; message: string; repo: string; date: string }) => ({
+            sha: c.sha.slice(0, 7),
+            message: c.message,
+            repo: c.repo,
+            date: c.date,
+            relativeTime: relativeTime(c.date),
+          }));
+          setRepoCommits(mapped);
+        }
+      }
+    } catch {
+      // Silently fail — this is a supplement
+    }
+  }, []);
   const fetchEvents = useCallback(async () => {
     setLoading(true);
     setError(null);
@@ -467,7 +490,17 @@ const GitActivityPanel = () => {
     fetchEvents();
   }, [fetchEvents]);
 
-  const commits = useMemo(() => extractCommits(events), [events]);
+  const eventCommits = useMemo(() => extractCommits(events), [events]);
+
+  // When events load but have no PushEvent commits, fetch from repos API
+  useEffect(() => {
+    if (!loading && events.length > 0 && eventCommits.length === 0) {
+      fetchRepoCommits();
+    }
+  }, [loading, events.length, eventCommits.length, fetchRepoCommits]);
+
+  // Use event commits if available, otherwise fall back to repo commits
+  const commits = eventCommits.length > 0 ? eventCommits : repoCommits;
   const heatmap = useMemo(() => buildHeatmap(events), [events]);
 
   return (

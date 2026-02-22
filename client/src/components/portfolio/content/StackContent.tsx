@@ -8,35 +8,41 @@ const skills = {
     "typescript": "^5.0.0",
     "javascript": "ES2024",
     "python": "^3.12",
-    "java": "^17",
+    "c++": "^17",
     // Frontend
     "react": "^18.2.0",
-    "react-native": "^0.73",
+    "next.js": "^14.0.0",
     "angular": "^17.0.0",
     "ionic": "^7.0.0",
+    "html5": "latest",
+    "css": "latest",
+    "bootstrap": "^5.3.0",
     // Backend
     "node": "^20.0.0",
     "express": "^4.18.0",
-    "nestjs": "^10.0.0",
+    "ejs": "^3.1.0",
+    "mongoose": "^7.0.0",
   },
   devDependencies: {
     // Databases
     "mongodb": "^6.0.0",
     "postgresql": "^16.0",
-    "redis": "^7.0.0",
     // Cloud & DevOps
-    "aws-sdk": "^3.0.0",
-    "docker": "^24.0.0",
-    "kubernetes": "^1.28",
+    "aws-amplify": "^6.0.0",
+    "aws-elastic-beanstalk": "latest",
+    "firebase": "^10.0.0",
     // Tools
     "git": "^2.42",
+    "github": "latest",
     "vscode": "latest",
     "postman": "latest",
+    "arduino": "latest",
+    "android-studio": "latest",
   },
   learning: {
-    "aws-solutions-architect": "in-progress",
-    "cloud-computing": "starting Jan 2026",
-    "system-design": "ongoing",
+    "cloud-deployment": "AWS Amplify & Elastic Beanstalk",
+    "competitive-programming": "100+ LeetCode | 4-Star HackerRank",
+    "responsive-web-design": "ongoing",
   }
 };
 
@@ -177,13 +183,14 @@ const StackContent = () => {
 
       <div className="mt-4 p-4 bg-muted/20 rounded-lg border border-border space-y-3">
         <SkillBar name="Node.js" level={90} />
-        <SkillBar name="React/React Native" level={85} />
+        <SkillBar name="React/Next.js" level={85} />
         <SkillBar name="Angular/Ionic" level={80} />
         <SkillBar name="MongoDB" level={85} />
         <SkillBar name="Express.js" level={88} />
-        <SkillBar name="AWS" level={70} />
-        <SkillBar name="Docker" level={65} />
+        <SkillBar name="C++" level={82} />
+        <SkillBar name="AWS" level={75} />
         <SkillBar name="TypeScript" level={82} />
+        <SkillBar name="Python" level={70} />
       </div>
 
       {/* Padding for scrolling */}
