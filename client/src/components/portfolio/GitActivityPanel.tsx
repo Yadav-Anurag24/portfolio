@@ -1,6 +1,7 @@
 import { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { GitCommit, GitBranch, ExternalLink, RefreshCw, AlertCircle } from 'lucide-react';
+import { API_BASE } from '@/lib/api';
 
 // ── Types ───────────────────────────────────────────────────────────
 interface GitHubEvent {
@@ -29,8 +30,8 @@ interface CommitEntry {
 // ── Helpers ─────────────────────────────────────────────────────────
 const GITHUB_USERNAME = 'Yadav-Anurag24';
 const GITHUB_PROFILE = `https://github.com/${GITHUB_USERNAME}`;
-const SERVER_EVENTS_API = '/api/github/events';
-const SERVER_COMMITS_API = '/api/github/commits';
+const SERVER_EVENTS_API = `${API_BASE}/api/github/events`;
+const SERVER_COMMITS_API = `${API_BASE}/api/github/commits`;
 const DIRECT_EVENTS_API = `https://api.github.com/users/${GITHUB_USERNAME}/events/public?per_page=100`;
 
 // ── Static Fallback Data ────────────────────────────────────────────

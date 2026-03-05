@@ -4,6 +4,7 @@ import { HoverCard, HoverCardContent, HoverCardTrigger } from '@/components/ui/h
 import { ExternalLink, Github, Smartphone, Car, BookOpen, Code2, ShoppingCart, NotebookPen, Calculator } from 'lucide-react';
 import { useTerminal } from '@/contexts/TerminalContext';
 import { useProjectNotification } from '@/contexts/NotificationContext';
+import { API_BASE } from '@/lib/api';
 
 // Helper to map Server IDs to Icons/Colors (Since server sends JSON, not UI components)
 const getProjectAssets = (id) => {
@@ -30,7 +31,7 @@ const ProjectsContent = () => {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const response = await fetch('/api/projects'); // Hits your Node.js Server
+        const response = await fetch(`${API_BASE}/api/projects`);
         if (!response.ok) throw new Error('Server offline');
         const data = await response.json();
         
@@ -66,7 +67,7 @@ const ProjectsContent = () => {
   if (loading) {
     return (
         <div className="leading-7 p-4">
-             <span className="syntax-comment">{`// Connecting to localhost:5000...`}</span><br/>
+             <span className="syntax-comment">{`// Connecting to server...`}</span><br/>
              <span className="syntax-comment">{`// Fetching data...`}</span>
         </div>
     );

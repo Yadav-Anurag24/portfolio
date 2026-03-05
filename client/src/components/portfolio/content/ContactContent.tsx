@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useTerminal } from '@/contexts/TerminalContext';
 import { useContactNotification } from '@/contexts/NotificationContext';
 import { Send, Loader2 } from 'lucide-react';
+import { API_BASE } from '@/lib/api';
 
 const ContactContent = () => {
   const { addLog } = useTerminal();
@@ -24,7 +25,7 @@ const ContactContent = () => {
 
     try {
       // 2. The Real API Call
-      const response = await fetch('/api/contact', {
+      const response = await fetch(`${API_BASE}/api/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -49,8 +50,8 @@ const ContactContent = () => {
       }
     } catch (error) {
       // 5. Network Error Handling
-      addLog('error', `> Network Error: Failed to reach localhost:5000`);
-      notifyContactError('Could not reach the server (localhost:5000). Is it running?');
+      addLog('error', `> Network Error: Failed to reach the server`);
+      notifyContactError('Could not reach the server. Please try again later.');
       console.error(error);
     } finally {
       setIsSubmitting(false);
