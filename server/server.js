@@ -79,6 +79,6 @@ app.get('/', (req, res) => {
 
 // Start Server
 app.listen(PORT, () => {
-    console.log(`3. Server running on port ${PORT}`);
+    console.log(`3. 🙂‍↔️Server running on port ${PORT}`);
     console.log("-----------------------------------");
 });
