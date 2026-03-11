@@ -232,46 +232,66 @@ export const useWelcomeNotification = () => {
     const hasVisited = sessionStorage.getItem('portfolio-welcomed');
     if (hasVisited) return;
 
-    // First notification — welcome
-    const welcomeTimer = setTimeout(() => {
-      notify({
-        type: 'info',
-        title: 'Welcome to my Portfolio!',
-        message: 'Press Ctrl+K to open the Command Palette and explore.',
-        icon: <Rocket className="w-4 h-4" />,
-        duration: 8000,
-        actions: [{ label: 'Got it!', onClick: () => {} }],
-      });
-    }, 1500);
+    // Dynamically import to avoid circular deps
+    const { isMobileWarningCleared, onMobileWarningDismissed } = require('@/components/portfolio/MobileWarningModal');
 
-    // Second notification — terminal hint
-    const terminalTimer = setTimeout(() => {
-      notify({
-        type: 'info',
-        title: 'Try the Terminal',
-        message: 'Press Ctrl+` to open the terminal and type "help" for a list of commands.',
-        icon: <Terminal className="w-4 h-4" />,
-        duration: 8000,
-      });
-    }, 4500);
+    const scheduleNotifications = () => {
+      const timers: ReturnType<typeof setTimeout>[] = [];
 
-    // Third notification — keyboard shortcuts
-    const kbTimer = setTimeout(() => {
-      notify({
-        type: 'info',
-        title: 'Keyboard Shortcuts',
-        message: 'Ctrl+B toggles the sidebar. Ctrl+, opens settings to change themes.',
-        icon: <Keyboard className="w-4 h-4" />,
-        duration: 8000,
-      });
-    }, 10000);
+      // First notification — welcome
+      timers.push(setTimeout(() => {
+        notify({
+          type: 'info',
+          title: 'Welcome to my Portfolio!',
+          message: 'Press Ctrl+K to open the Command Palette and explore.',
+          icon: <Rocket className="w-4 h-4" />,
+          duration: 8000,
+          actions: [{ label: 'Got it!', onClick: () => {} }],
+        });
+      }, 1500));
 
-    sessionStorage.setItem('portfolio-welcomed', 'true');
+      // Second notification — terminal hint
+      timers.push(setTimeout(() => {
+        notify({
+          type: 'info',
+          title: 'Try the Terminal',
+          message: 'Press Ctrl+` to open the terminal and type "help" for a list of commands.',
+          icon: <Terminal className="w-4 h-4" />,
+          duration: 8000,
+        });
+      }, 4500));
+
+      // Third notification — keyboard shortcuts
+      timers.push(setTimeout(() => {
+        notify({
+          type: 'info',
+          title: 'Keyboard Shortcuts',
+          message: 'Ctrl+B toggles the sidebar. Ctrl+, opens settings to change themes.',
+          icon: <Keyboard className="w-4 h-4" />,
+          duration: 8000,
+        });
+      }, 10000));
+
+      sessionStorage.setItem('portfolio-welcomed', 'true');
+      return timers;
+    };
+
+    let timers: ReturnType<typeof setTimeout>[] = [];
+    let cleanup: (() => void) | undefined;
+
+    if (isMobileWarningCleared()) {
+      // Desktop or already dismissed — show immediately
+      timers = scheduleNotifications();
+    } else {
+      // Wait for the mobile modal to be dismissed before showing toasts
+      cleanup = onMobileWarningDismissed(() => {
+        timers = scheduleNotifications();
+      });
+    }
 
     return () => {
-      clearTimeout(welcomeTimer);
-      clearTimeout(terminalTimer);
-      clearTimeout(kbTimer);
+      timers.forEach(clearTimeout);
+      cleanup?.();
     };
   }, [notify]);
 };
