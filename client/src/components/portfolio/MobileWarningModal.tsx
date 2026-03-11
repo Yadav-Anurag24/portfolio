@@ -2,18 +2,6 @@ import { useState, useEffect } from 'react';
 import { Monitor, Smartphone, X, ExternalLink } from 'lucide-react';
 import { useIsMobile } from '@/hooks/use-mobile';
 
-/** Fires when the mobile warning is dismissed so other components can react. */
-const mobileWarningDismissedEvent = 'mobile-warning-dismissed';
-
-export const onMobileWarningDismissed = (cb: () => void) => {
-  window.addEventListener(mobileWarningDismissedEvent, cb, { once: true });
-  return () => window.removeEventListener(mobileWarningDismissedEvent, cb);
-};
-
-/** Returns true when the mobile warning was never shown or has been dismissed. */
-export const isMobileWarningCleared = () =>
-  sessionStorage.getItem('mobile-warning-dismissed') === 'true';
-
 const MobileWarningModal = () => {
   const isMobile = useIsMobile();
   const [isVisible, setIsVisible] = useState(false);
@@ -36,7 +24,6 @@ const MobileWarningModal = () => {
       setIsVisible(false);
       setIsClosing(false);
       sessionStorage.setItem('mobile-warning-dismissed', 'true');
-      window.dispatchEvent(new Event(mobileWarningDismissedEvent));
     }, 300);
   };
 

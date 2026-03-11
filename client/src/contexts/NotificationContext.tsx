@@ -18,7 +18,6 @@ import {
   Terminal,
   Keyboard,
 } from 'lucide-react';
-import { isMobileWarningCleared, onMobileWarningDismissed } from '@/components/portfolio/MobileWarningModal';
 
 /* ================================================================
    TYPES
@@ -230,66 +229,52 @@ export const useWelcomeNotification = () => {
   const { notify } = useNotification();
 
   useEffect(() => {
+    // Skip toasts entirely on mobile — only show on desktop
+    if (window.innerWidth < 768) return;
+
     const hasVisited = sessionStorage.getItem('portfolio-welcomed');
     if (hasVisited) return;
 
-    const scheduleNotifications = () => {
-      const timers: ReturnType<typeof setTimeout>[] = [];
+    const timers: ReturnType<typeof setTimeout>[] = [];
 
-      // First notification — welcome
-      timers.push(setTimeout(() => {
-        notify({
-          type: 'info',
-          title: 'Welcome to my Portfolio!',
-          message: 'Press Ctrl+K to open the Command Palette and explore.',
-          icon: <Rocket className="w-4 h-4" />,
-          duration: 8000,
-          actions: [{ label: 'Got it!', onClick: () => {} }],
-        });
-      }, 1500));
-
-      // Second notification — terminal hint
-      timers.push(setTimeout(() => {
-        notify({
-          type: 'info',
-          title: 'Try the Terminal',
-          message: 'Press Ctrl+` to open the terminal and type "help" for a list of commands.',
-          icon: <Terminal className="w-4 h-4" />,
-          duration: 8000,
-        });
-      }, 4500));
-
-      // Third notification — keyboard shortcuts
-      timers.push(setTimeout(() => {
-        notify({
-          type: 'info',
-          title: 'Keyboard Shortcuts',
-          message: 'Ctrl+B toggles the sidebar. Ctrl+, opens settings to change themes.',
-          icon: <Keyboard className="w-4 h-4" />,
-          duration: 8000,
-        });
-      }, 10000));
-
-      sessionStorage.setItem('portfolio-welcomed', 'true');
-      return timers;
-    };
-
-    let timers: ReturnType<typeof setTimeout>[] = [];
-    let cleanup: (() => void) | undefined;
-
-    if (isMobileWarningCleared()) {
-      // Desktop or already dismissed — show immediately
-      timers = scheduleNotifications();
-    } else {
-      // Wait for the mobile modal to be dismissed before showing toasts
-      cleanup = onMobileWarningDismissed(() => {
-        timers = scheduleNotifications();
+    // First notification — welcome
+    timers.push(setTimeout(() => {
+      notify({
+        type: 'info',
+        title: 'Welcome to my Portfolio!',
+        message: 'Press Ctrl+K to open the Command Palette and explore.',
+        icon: <Rocket className="w-4 h-4" />,
+        duration: 8000,
+        actions: [{ label: 'Got it!', onClick: () => {} }],
       });
-    }
+    }, 1500));
+
+    // Second notification — terminal hint
+    timers.push(setTimeout(() => {
+      notify({
+        type: 'info',
+        title: 'Try the Terminal',
+        message: 'Press Ctrl+` to open the terminal and type "help" for a list of commands.',
+        icon: <Terminal className="w-4 h-4" />,
+        duration: 8000,
+      });
+    }, 4500));
+
+    // Third notification — keyboard shortcuts
+    timers.push(setTimeout(() => {
+      notify({
+        type: 'info',
+        title: 'Keyboard Shortcuts',
+        message: 'Ctrl+B toggles the sidebar. Ctrl+, opens settings to change themes.',
+        icon: <Keyboard className="w-4 h-4" />,
+        duration: 8000,
+      });
+    }, 10000));
+
+    sessionStorage.setItem('portfolio-welcomed', 'true');
 
     return () => {
       timers.forEach(clearTimeout);
-      cleanup?.();
     };
   }, [notify]);
 };

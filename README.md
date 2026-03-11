@@ -15,7 +15,7 @@
 
 Instead of a typical scrolling website, visitors explore the portfolio like a code editor — with a file explorer, tabbed editor, integrated terminal, sidebar panels, and more.
 
-[Live Demo](https://anurag-portfolio-tau.vercel.app/) · [Report Bug](https://github.com/Yadav-Anurag24/portfolio-master/issues)
+[Live Demo](https://www.kumaranurag.dev/) · [Report Bug](https://github.com/Yadav-Anurag24/portfolio-master/issues)
 
 </div>
 
