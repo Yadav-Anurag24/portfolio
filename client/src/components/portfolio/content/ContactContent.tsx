@@ -3,7 +3,6 @@ import { useState } from 'react';
 import { useTerminal } from '@/contexts/TerminalContext';
 import { useContactNotification } from '@/contexts/NotificationContext';
 import { Send, Loader2 } from 'lucide-react';
-import { API_BASE } from '@/lib/api';
 
 const ContactContent = () => {
   const { addLog } = useTerminal();
@@ -24,11 +23,12 @@ const ContactContent = () => {
     addLog('info', `> Sending message package from ${formData.email}...`);
 
     try {
-      // 2. The Real API Call
-      const response = await fetch(`${API_BASE}/api/contact`, {
+      // 2. Send via Formspree
+      const response = await fetch('https://formspree.io/f/xvgwrrbp', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json',
         },
         body: JSON.stringify(formData),
       });
@@ -37,16 +37,17 @@ const ContactContent = () => {
 
       if (response.ok) {
         // 3. Success Handling
-        addLog('success', `> POST /api/contact - 200 OK`);
-        addLog('output', `> Server Response: "${data.message}"`);
+        addLog('success', `> POST /contact - 200 OK`);
+        addLog('output', `> Message delivered successfully.`);
         notifyContactSuccess();
         
         // Clear the form
         setFormData({ name: '', email: '', subject: '', message: '' });
       } else {
-        // 4. Server Error Handling (e.g. missing fields)
-        addLog('error', `> Server Error (400): ${data.message}`);
-        notifyContactError(data.message);
+        // 4. Formspree Error Handling
+        const errorMsg = data.errors?.map((e: { message: string }) => e.message).join(', ') || 'Failed to send message.';
+        addLog('error', `> Error: ${errorMsg}`);
+        notifyContactError(errorMsg);
       }
     } catch (error) {
       // 5. Network Error Handling

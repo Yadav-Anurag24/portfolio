@@ -1,5 +1,6 @@
 const Contact = require('../models/contactModel');
 const nodemailer = require('nodemailer');
+const { getIsConnected } = require('../config/db');
 
 // ─── Helpers ─────────────────────────────────────────────────
 
@@ -14,6 +15,16 @@ const sanitizeString = (str) => {
 
 /** Basic email format check */
 const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+/** Wrap a promise with a timeout to prevent indefinite hanging */
+const withTimeout = (promise, ms, label) => {
+    return Promise.race([
+        promise,
+        new Promise((_, reject) =>
+            setTimeout(() => reject(new Error(`${label} timed out after ${ms}ms`)), ms)
+        )
+    ]);
+};
 
 // @desc    Handle contact form submission
 // @route   POST /api/contact
@@ -42,16 +53,33 @@ const submitContact = async (req, res) => {
     }
 
     try {
-        // 2. Save to MongoDB (Backup Log)
-        const newContact = await Contact.create({
-            name,
-            email,
-            subject: subject || 'No Subject',
-            message
-        });
-        console.log(`✅ Saved to Database with ID: ${newContact._id}`);
+        // 2. Save to MongoDB (only if connected — avoids Mongoose buffering hang)
+        if (getIsConnected()) {
+            try {
+                const newContact = await withTimeout(
+                    Contact.create({
+                        name,
+                        email,
+                        subject: subject || 'No Subject',
+                        message
+                    }),
+                    10000,
+                    'MongoDB save'
+                );
+                console.log(`✅ Saved to Database with ID: ${newContact._id}`);
+            } catch (dbError) {
+                console.error('⚠️ Database save failed (continuing):', dbError.message);
+            }
+        } else {
+            console.warn('⚠️ MongoDB not connected — skipping database save.');
+        }
 
-        // 3. Send Email Notification (The "Professional" Part)
+        // 3. Send Email Notification
+        if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+            console.error('❌ EMAIL_USER or EMAIL_PASS not set — cannot send email.');
+            return res.status(500).json({ success: false, message: 'Server email configuration is missing. Please contact via LinkedIn.' });
+        }
+
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
@@ -77,7 +105,7 @@ const submitContact = async (req, res) => {
             `
         };
 
-        await transporter.sendMail(mailOptions);
+        await withTimeout(transporter.sendMail(mailOptions), 15000, 'Email send');
         console.log("📧 Email Notification Sent Successfully!");
 
         res.status(201).json({ 
