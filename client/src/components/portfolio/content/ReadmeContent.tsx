@@ -24,7 +24,7 @@ const ReadmeContent = () => {
       <div className="flex flex-wrap gap-2 leading-7">
         <span className="px-2 py-0.5 rounded text-xs bg-primary/20 text-primary">BCA @ LPU | CGPA: 8.2</span>
         <span className="px-2 py-0.5 rounded text-xs bg-syntax-string/20 text-syntax-string">Full Stack Developer</span>
-        <span className="px-2 py-0.5 rounded text-xs bg-syntax-keyword/20 text-syntax-keyword">4-Star HackerRank</span>
+        <span className="px-2 py-0.5 rounded text-xs bg-syntax-keyword/20 text-syntax-keyword">Cloud Enthusiast</span>
       </div>
 
       {/* H1 Title */}
@@ -65,8 +65,8 @@ const ReadmeContent = () => {
         <PeekableKeyword keyword="node" className="syntax-keyword">Node.js</PeekableKeyword>,{' '}
         <PeekableKeyword keyword="express" className="syntax-keyword">Express</PeekableKeyword>, and modern frameworks like{' '}
         <PeekableKeyword keyword="react" className="syntax-function">React</PeekableKeyword>,{' '}
-        <PeekableKeyword keyword="angular" className="syntax-function">Angular</PeekableKeyword>, and Next.js.
-        Experienced with cloud deployment using AWS Amplify and Elastic Beanstalk.
+        <PeekableKeyword keyword="angular" className="syntax-function">Angular</PeekableKeyword>, and React.js.
+        Experienced with cloud deployment using AWS Amplify, EC2 and Elastic Beanstalk.
       </div>
       <AnimatePresence>
         {activeKeyword && ['node', 'express', 'react', 'angular'].includes(activeKeyword) && (
