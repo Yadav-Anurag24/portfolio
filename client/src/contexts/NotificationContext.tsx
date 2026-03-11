@@ -18,6 +18,7 @@ import {
   Terminal,
   Keyboard,
 } from 'lucide-react';
+import { isMobileWarningCleared, onMobileWarningDismissed } from '@/components/portfolio/MobileWarningModal';
 
 /* ================================================================
    TYPES
@@ -231,9 +232,6 @@ export const useWelcomeNotification = () => {
   useEffect(() => {
     const hasVisited = sessionStorage.getItem('portfolio-welcomed');
     if (hasVisited) return;
-
-    // Dynamically import to avoid circular deps
-    const { isMobileWarningCleared, onMobileWarningDismissed } = require('@/components/portfolio/MobileWarningModal');
 
     const scheduleNotifications = () => {
       const timers: ReturnType<typeof setTimeout>[] = [];
